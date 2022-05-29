@@ -10,10 +10,11 @@ namespace RedSocial
     {
         private List<Usuario> usuarios;
         public Usuario usuarioActual { get; set; }
-        private int cantidadUsuarios;
         private List<Post> posts;
         private List<Tag> tags;
         private List<Comentario> comentarios;
+        private UsuarioManager usuarioManager;
+
 
 
         public RedSocial()
@@ -22,7 +23,10 @@ namespace RedSocial
             posts = new List<Post>();
             tags = new List<Tag>();
             comentarios = new List<Comentario>();
-            cantidadUsuarios = 0;
+
+            usuarioManager = new UsuarioManager();
+
+
         }
 
         public bool iniciarSesion(string user, string pass)
@@ -58,9 +62,8 @@ namespace RedSocial
         public void registrarUsuario(string dni, string nombre, string apellido, string mail,
                 string pass)
         {
-
-            usuarios.Add(new Usuario(cantidadUsuarios, dni, nombre, apellido, mail, pass));
-            cantidadUsuarios++;
+            usuarioManager.registrarUsuario(dni, nombre, apellido, mail, pass,false,0,false);
+       
         }
 
         public void modificarUsuario(Usuario u)
