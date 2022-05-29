@@ -18,6 +18,9 @@ namespace RedSocial
         public int intentosFallidos { get; set; }
         public bool bloqueado { get; set; }
 
+        public bool esAdmin { get; set; }
+
+
         public List<Usuario> amigos = new List<Usuario>();
 
         public List<Post> misPost = new List<Post>();
@@ -27,7 +30,7 @@ namespace RedSocial
         public List<Reaccion> misReacciones = new List<Reaccion>();
 
 
-        public Usuario(int id, string dni, string nombre, string apellido, string mail, string pass) 
+        public Usuario(int id, string dni, string nombre, string apellido, string mail, string pass, bool esAdmin, int intentosFallidos, bool bloqueado) 
         {
             this.id = id;
             this.dni = dni;
@@ -35,8 +38,10 @@ namespace RedSocial
             this.apellido = apellido;
             this.mail = mail;
             this.pass = pass;
-            this.intentosFallidos = 0;
-            this.bloqueado = false;
+            this.esAdmin = esAdmin;
+            this.bloqueado = bloqueado;
+            this.intentosFallidos = intentosFallidos;
+
         }
     }
 }
