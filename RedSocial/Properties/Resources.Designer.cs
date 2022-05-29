@@ -59,5 +59,14 @@ namespace RedSocial.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Data Source=DESKTOP-0L1UF7O;Initial Catalog=RedSocial;Integrated Security=True.
+        /// </summary>
+        internal static string ConnectionString {
+            get {
+                return ResourceManager.GetString("ConnectionString", resourceCulture);
+            }
+        }
     }
 }
