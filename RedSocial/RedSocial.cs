@@ -39,6 +39,7 @@ namespace RedSocial
                 {
                     this.usuarioActual = usuario;
                     usuarioEncontrado = true;
+                    this.usuarioActual.intentosFallidos = 0;
                 } else if (usuario.nombre.Equals(user) && !usuario.pass.Equals(pass)) {
                     usuarios[usuario.id].intentosFallidos++;
                 }
@@ -69,11 +70,6 @@ namespace RedSocial
             usuarios[aux] = u;
         }
 
-        private void eliminarUsuario(Usuario u)
-        {
-            //Se remueve usuario de la lista
-            usuarios.Remove(u);
-        }
 
         public void eliminarUsuario(int id)
         {
@@ -81,32 +77,13 @@ namespace RedSocial
             {
                 if (usuario.id == id)
                 {
-                    eliminarUsuario(usuario);
+                     usuarios.Remove(usuario);
                 }
             }
         }
 
         //Seccion Amigos
 
-        private bool agregarAmigo(Usuario amigo)
-        {
-            if(usuarioActual.id == amigo.id || usuarioActual.amigos.Contains(amigo))
-            {
-                return false;
-            }
-            else {
-                //Se agrega a amigos al usuario
-                int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
-                usuarios[aux].amigos.Add(amigo);
-
-                //El usuario que fue agregado, tambien agrega al usuario que lo agrego a amigos
-                int aux2 = usuarios.FindIndex(usuario => usuario.id == amigo.id);
-                usuarios[aux2].amigos.Add(usuarioActual);
-
-                return true;
-            }
-            
-        }
 
         private void quitarAmigo(Usuario exAmigo)
         {
@@ -131,40 +108,34 @@ namespace RedSocial
         }
 
         // Seccion de logica de Reacciones.
-        private void reaccionar(Post post, Reaccion reaccion)
-        {
-
-            reaccion.usuario = usuarioActual;
-
-            // Busco el indice del usuario en la lista para agregarle sus reacciones
-            int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
-            usuarios[aux].misReacciones.Add(reaccion);
-
-            int aux2 = posts.FindIndex(p => p.id == post.id);
-            posts[aux2].reacciones.Add(reaccion);
-
-        }
-
+        
         public bool reaccionar(int idPost, int tipoReaccion, Usuario u)
-        {  
+        {
+            Post PostAModif=null;
             foreach(Post p in posts)
             {
                 if(p.id == idPost)
                 {
-                    foreach (Reaccion r in p.reacciones) {
-                        if (r.usuario.Equals(u))
-                        {
-                            return false;
-                        }
-                    }
-
-                    reaccionar(p, new(tipoReaccion, p, u));
-                    return true;
-
+                    PostAModif = p;
                 }
+            }
+            if (PostAModif != null)
+            {
+                foreach (Reaccion r in PostAModif.reacciones)
+                {
+                    if (r.usuario.Equals(u))
+                    {
+                        return false;
+                    }
+                }
+                Reaccion Nueva = new Reaccion(tipoReaccion, PostAModif, u);
+                PostAModif.reacciones.Add(Nueva);
+                u.misReacciones.Add(Nueva);
+                return true;
             }
             return false;
         } 
+
 
         private void modificarReaccion(Post post, Reaccion r)
         {
@@ -219,6 +190,7 @@ namespace RedSocial
         //---------------------------METODOS DEL POSTEO-------------------
         public void postear(Post post, List<Tag> tag)
         {
+            List<Tag> auxTags = new List<Tag>();
 
             foreach (Tag t in tag)
             {
@@ -234,9 +206,7 @@ namespace RedSocial
             }
 
             post.tags = tag; //agrego la lista de tags al post
-            int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
-            usuarios[aux].misPost.Add(post); // agrega post al usuario actual en la lista de usuarios
-
+            usuarioActual.misPost.Add(post); // agrega post al usuario actual en la lista de usuarios
             posts.Add(post); //agrego post a la lista de posts
         }
 
@@ -330,7 +300,7 @@ namespace RedSocial
             List<Post> bPost = new List<Post>();
             foreach (Post post in posts)
             {
-                if (post.contenido.Equals(contenido))
+                if (post.contenido.Contains(contenido))
                 {
                     bPost.Add(post);
                 } else if (post.fecha >= fechaDesde && post.fecha <= fechaHasta)
@@ -370,11 +340,12 @@ namespace RedSocial
         //Modificar comentario
         public void modificarComentario(int idComentario, string nuevoComentario)
         {
-            foreach(Comentario comentario in comentarios)
-            {
-                if (!comentario.usuario.Equals(usuarioActual)) return;
-                comentario.contenido = nuevoComentario;
-            }
+                int aux = comentarios.FindIndex(c => c.id == idComentario);
+
+            if (comentarios[aux].usuario.Equals(usuarioActual)){
+                comentarios[aux].contenido = nuevoComentario;
+            } 
+               
         }
 
         //Borrar comentario
@@ -418,19 +389,23 @@ namespace RedSocial
 
         //-------------------------------Metodos de busqueda-------------------------------
 
-        public bool agregarAmigo(int id) {
-            
+        public bool agregarAmigo(int id)
+        {
+
             foreach (Usuario u in usuarios)
             {
-                if (u.id == id)
-                {
-                    return agregarAmigo(u);
-                }
-               
+ 
+                    if (!usuarioActual.amigos.Contains(u) && (u.id == id)) { 
+                    u.amigos.Add(usuarioActual);
+                    usuarioActual.amigos.Add(u);
+                    return true;
+                    }
+
             }
 
             return false;
         }
+
 
         public Post buscarPost(int id)
         {
