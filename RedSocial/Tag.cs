@@ -8,16 +8,20 @@ namespace RedSocial
 	{
 
 		public int id { get; set; }
-
 		public string palabra { get; set; }
-
 		public List<Post> posts { get; set; } = new List<Post>();
-
 		static public int cantidadTag = 0;
+		public int IdPost;
 
 		public Tag(string palabra)
 		{
 			this.id = cantidadTag;
+			this.palabra = palabra;
+			cantidadTag++;
+		}
+		public Tag(int id, string palabra)
+		{
+			this.id = id;
 			this.palabra = palabra;
 			cantidadTag++;
 		}
