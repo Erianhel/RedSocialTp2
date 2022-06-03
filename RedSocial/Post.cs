@@ -20,7 +20,6 @@ namespace RedSocial
 
         public Post(int id, DateTime fecha, string contenido, int idUsuario)
         {
-            this.usuario = usuario;
             this.contenido = contenido;
             this.comentarios = new List<Comentario>(); 
             this.reacciones = new List<Reaccion>();
