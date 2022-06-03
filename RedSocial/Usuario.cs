@@ -17,7 +17,6 @@ namespace RedSocial
         public string pass { get; set; }
         public int intentosFallidos { get; set; }
         public bool bloqueado { get; set; }
-
         public bool esAdmin { get; set; }
 
 
