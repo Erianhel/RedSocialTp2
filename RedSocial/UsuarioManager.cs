@@ -15,7 +15,7 @@ namespace RedSocial
             inicializarAmigos();
         }
 
-        private void inicializarUsuarios()
+        public List <Usuario> inicializarUsuarios()
         {
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
@@ -51,6 +51,8 @@ namespace RedSocial
                     Console.WriteLine(ex.Message);
                 }
             }
+
+            return misUsuarios;
         }
 
         public void inicializarAmigos()

@@ -14,7 +14,7 @@ namespace RedSocial
             inicializarAtributos();
         }
 
-        private void inicializarAtributos()
+        public List<Comentario> inicializarAtributos()
         {
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
@@ -49,6 +49,7 @@ namespace RedSocial
                 {
                     Console.WriteLine(ex.Message);
                 }
+                
             }
 
             // relaciono las tablas con usuarios y posts
@@ -72,6 +73,8 @@ namespace RedSocial
                     }
                 }
             }
+
+            return misComentarios;
         }
 
         public bool registrarComentario(DateTime fecha, string contenido, int idUsuario, int idPost)

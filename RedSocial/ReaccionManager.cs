@@ -49,6 +49,28 @@ namespace RedSocial
                 {
                     Console.WriteLine(ex.Message);
                 }
+
+                //Relaciono reacciones con post y usuarios
+                foreach (Reaccion aux in misReacciones)
+                {
+                    foreach(Post p in misPosts)
+                    {
+                        if (aux.idPost == p.id)
+                        {
+                            aux.post = p;
+                            p.reacciones.Add(aux);
+                        }
+                    }
+
+                    foreach(Usuario u in misUsuarios)
+                    {
+                        if (aux.idUsuario == u.id)
+                        {
+                            aux.usuario = u;
+                            u.misReacciones.Add(aux);
+                        }
+                    }
+                }
             }
             return misReacciones;
         }

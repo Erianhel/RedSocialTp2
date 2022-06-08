@@ -14,7 +14,7 @@ namespace RedSocial
             inicializarAtributos();
         }
 
-        private void inicializarAtributos()
+        public List <Post>inicializarAtributos()
         {
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
@@ -49,7 +49,21 @@ namespace RedSocial
                 {
                     Console.WriteLine(ex.Message);
                 }
+
+                //relaciono post con usuarios
+                foreach (Post p in misPosts)
+                {
+                    foreach (Usuario u in misUsuarios)
+                    {
+                        if (p.idUsuario == u.id)
+                        {
+                            u.misPost.Add(p);
+                            p.usuario = u;
+                        }
+                    }
+                }
             }
+            return misPosts;
         }
 
         public bool Postear(string contenido, DateTime fecha, int idUsuario)
