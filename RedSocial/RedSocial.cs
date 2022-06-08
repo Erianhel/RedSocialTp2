@@ -15,8 +15,6 @@ namespace RedSocial
         private List<Comentario> comentarios;
         private UsuarioManager usuarioManager;
 
-
-
         public RedSocial()
         {
             usuarios = new List<Usuario>();
@@ -59,11 +57,9 @@ namespace RedSocial
 
         //Seccion de logica Usuarios
 
-        public void registrarUsuario(string dni, string nombre, string apellido, string mail,
-                string pass)
+        public void registrarUsuario(string dni, string nombre, string apellido, string mail, string pass)
         {
-            usuarioManager.registrarUsuario(dni, nombre, apellido, mail, pass,false,0,false);
-       
+            usuarioManager.registrarUsuario(dni, nombre, apellido, mail, pass, false, 0, false);
         }
 
         public void modificarUsuario(Usuario u)

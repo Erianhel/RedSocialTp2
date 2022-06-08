@@ -7,23 +7,21 @@ namespace RedSocial
 
 	{
 		public int id { get; set; }
-		public Post post { get; set; }
-		public Usuario usuario { get; set; }
 		public string contenido { get; set; }
 		public DateTime fecha { get; set; }
+		public int idUsuario { get; set; }
+		public int idPost { get; set; }
+		public Post post { get; set; }
+		public Usuario usuario { get; set; }
 
-		static public int cantidadComentario = 0;
-
-		public Comentario(Post post, Usuario usuario, string contenido, DateTime fecha)
+		public Comentario(int id, DateTime fecha, string contenido,  int idUsuario, int idPost)
 		{
 
-			this.id = cantidadComentario;
-			this.post = post;
-			this.usuario = usuario;
+			this.id = id;
 			this.contenido = contenido;
 			this.fecha = fecha;
-
-			cantidadComentario++;
+			this.idPost = idPost;
+			this.idUsuario = idUsuario;
 
 		}
 

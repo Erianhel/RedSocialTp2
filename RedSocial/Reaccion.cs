@@ -12,17 +12,15 @@ namespace RedSocial
         public int tipo { get; set; }
         public Post post { get; set; }
         public Usuario usuario{ get; set; }
+        public int idUsuario { get; set; }
+        public int idPost { get; set; }
 
-        public static int cantidadReaccion = 0;
 
-        public Reaccion(int tipo, Post post, Usuario usuario)
+        public Reaccion(int id, int tipo, int idPost, int idUsuario)
         {
-            this.id = cantidadReaccion;
             this.tipo = tipo;
-            this.post = post;
-            this.usuario = usuario;
-
-            cantidadReaccion++;
+            this.idPost = idPost;
+            this.idUsuario = idUsuario;
         }
 
     }

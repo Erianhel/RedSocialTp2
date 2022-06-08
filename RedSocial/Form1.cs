@@ -11,6 +11,9 @@ namespace RedSocial
 
         public delegate void TransfDelegado();
         public TransfDelegado eventoEvento;
+
+        public delegate void TransfDelegadoAdmin();
+        public TransfDelegadoAdmin eventoAdmin;
         public Form1(RedSocial redSocial,bool logeo)
         {
             InitializeComponent();
@@ -53,10 +56,19 @@ namespace RedSocial
 
             if (miRed.iniciarSesion(textBox1.Text, textBox2.Text))
             {
-                this.eventoEvento();
-                this.Close();
+                if (miRed.usuarioActual.esAdmin)
+                {
+                    this.eventoAdmin();
+                    this.Close();
+                }
+                else
+                {
+                    this.eventoEvento();
+                    this.Close();
+                }
             }
-            else {
+            else 
+            {
                 MessageBox.Show("Usuario o contraseña incorrecta",
                     "Mensaje",
                     MessageBoxButtons.OK,

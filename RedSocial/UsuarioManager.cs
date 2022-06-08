@@ -11,16 +11,17 @@ namespace RedSocial
         public UsuarioManager()
         {
             misUsuarios = new List<Usuario>();
-            inicializarAtributos();
+            inicializarUsuarios();
+            inicializarAmigos();
         }
 
-        private void inicializarAtributos()
+        private void inicializarUsuarios()
         {
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
 
             //Defino el string con la consulta que quiero realizar
-            string queryString = "SELECT * from dbo.Usuario";
+            string queryString = "SELECT * from dbo.USUARIO";
 
             // Creo una conexión SQL con un Using, de modo que al finalizar, la conexión se cierra y se liberan recursos
             using (SqlConnection connection =
@@ -49,6 +50,140 @@ namespace RedSocial
                 {
                     Console.WriteLine(ex.Message);
                 }
+            }
+        }
+
+        public void inicializarAmigos()
+        {
+            //Cargo la cadena de conexión desde el archivo de properties
+            string connectionString = connectionDB;
+
+            //Defino el string con la consulta que quiero realizar
+            string queryString = "SELECT * from dbo.AMIGO";
+
+            // Creo una conexión SQL con un Using, de modo que al finalizar, la conexión se cierra y se liberan recursos
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                // Defino el comando a enviar al motor SQL con la consulta y la conexión
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    //Abro la conexión
+                    connection.Open();
+                    //mi objecto DataReader va a obtener los resultados de la consulta, notar que a comando se le pide ExecuteReader()
+                    SqlDataReader reader = command.ExecuteReader();
+                    Usuario aux;
+                    //mientras haya registros/filas en mi DataReader, sigo leyendo
+                    while (reader.Read())
+                    {
+                        foreach (Usuario usuario in misUsuarios)
+                        {
+                            if(usuario.id == reader.GetInt32(2))
+                            {
+                                foreach (Usuario usuario2 in misUsuarios)
+                                {
+                                    if(usuario2.id == reader.GetInt32(1))
+                                    {
+                                        usuario.amigos.Add(usuario2);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //En este punto ya recorrí todas las filas del resultado de la query
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
+        public bool registrarAmigo(int idUsuario, int idAmigo)
+        {
+
+            //primero me aseguro que lo pueda agregar a la base
+            int resultadoQuery;
+            
+            string connectionString = connectionDB;
+            string queryString = "INSERT INTO [dbo].[AMIGO] ([ID_AMIGO],[ID_USUARIO]) VALUES (@idamigo,@idusuario);";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@idamigo", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@idusuario", SqlDbType.NVarChar));
+                
+
+                command.Parameters["@idamigo"].Value = idAmigo;
+                command.Parameters["@idusuario"].Value = idUsuario;
+                ;
+                
+
+                Console.WriteLine(queryString + "hola");
+
+
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQuery = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+            if (resultadoQuery == 1)
+            {
+                return true;
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
+            }
+        }
+
+        public bool eliminarAmigo(int idAmigo, int idUsuario)
+        {
+            //primero me aseguro que lo pueda agregar a la base
+            int resultadoQuery;
+            string connectionString = connectionDB;
+            string queryString = "DELETE FROM [dbo].[AMIGO] WHERE ID_AMIGO=@idAmigo AND ID_USUARIO=@idUsuario";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@idAmigo", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+
+                command.Parameters["@idAmigo"].Value = idAmigo;
+                command.Parameters["@idUsuario"].Value = idUsuario;
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQuery = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+            if (resultadoQuery == 1)
+            {  
+                    return true;
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
             }
         }
 
@@ -188,7 +323,7 @@ namespace RedSocial
             //primero me aseguro que lo pueda agregar a la base
             int resultadoQuery;
             string connectionString = connectionDB;
-            string queryString = "UPDATE [dbo].[Usuario] SET NOMBRE=@nombre, APELLID=@apellido,Mail=@mail,Password=@password, ES_ADMIN=@esadm, BLOQUEADO=@bloqueado, INTENTOS_FALLIDOS=@intentosFallidos WHERE ID=@id;";
+            string queryString = "UPDATE [dbo].[Usuario] SET NOMBRE=@nombre, APELLIDO=@apellido,MAIL=@mail,PASSWORD=@password, ES_ADMIN=@esadm, BLOQUEADO=@bloqueado, INTENTOS_FALLIDOS=@intentosFallidos WHERE ID=@id;";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
@@ -256,5 +391,7 @@ namespace RedSocial
                 return false;
             }
         }
+
+        
     }
 }
