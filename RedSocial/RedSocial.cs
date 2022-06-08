@@ -33,7 +33,8 @@ namespace RedSocial
 
             foreach (Usuario usuario in usuarios)
             {
-                if (usuario.intentosFallidos == 3) {
+                if (usuario.intentosFallidos == 3)
+                {
                     usuarios[usuario.id].bloqueado = true;
                 }
 
@@ -42,7 +43,9 @@ namespace RedSocial
                     this.usuarioActual = usuario;
                     usuarioEncontrado = true;
                     this.usuarioActual.intentosFallidos = 0;
-                } else if (usuario.nombre.Equals(user) && !usuario.pass.Equals(pass)) {
+                }
+                else if (usuario.nombre.Equals(user) && !usuario.pass.Equals(pass))
+                {
                     usuarios[usuario.id].intentosFallidos++;
                 }
 
@@ -51,7 +54,8 @@ namespace RedSocial
         }
 
         //Cerrar sesión
-        public void cerrarSesion () {
+        public void cerrarSesion()
+        {
             usuarioActual = null;
         }
 
@@ -76,7 +80,7 @@ namespace RedSocial
             {
                 if (usuario.id == id)
                 {
-                     usuarios.Remove(usuario);
+                    usuarios.Remove(usuario);
                 }
             }
         }
@@ -101,19 +105,19 @@ namespace RedSocial
             {
                 if (usuario.id == id)
                 {
-                    quitarAmigo(usuario); 
+                    quitarAmigo(usuario);
                 }
             }
         }
 
         // Seccion de logica de Reacciones.
-        
+
         public bool reaccionar(int idPost, int tipoReaccion, Usuario u)
         {
-            Post PostAModif=null;
-            foreach(Post p in posts)
+            Post PostAModif = null;
+            foreach (Post p in posts)
             {
-                if(p.id == idPost)
+                if (p.id == idPost)
                 {
                     PostAModif = p;
                 }
@@ -133,13 +137,13 @@ namespace RedSocial
                 return true;
             }
             return false;
-        } 
+        }
 
 
         private void modificarReaccion(Post post, Reaccion r)
         {
             int aux2 = posts.FindIndex(p => p.id == post.id);
-            
+
             //busco el indice de la reaccion en la lista de posts
             int aux = posts[aux2].reacciones.FindIndex((reaccion) => reaccion.id == r.id);
 
@@ -153,7 +157,7 @@ namespace RedSocial
             {
                 if (p.id == id)
                 {
-                    modificarReaccion(p, new(tipoReaccion,p,u));
+                    modificarReaccion(p, new(tipoReaccion, p, u));
                 }
             }
         }
@@ -172,7 +176,7 @@ namespace RedSocial
             {
                 if (p.id == id)
                 {
-                    for(int aux = 0; aux < p.reacciones.Count; aux++)
+                    for (int aux = 0; aux < p.reacciones.Count; aux++)
                     //foreach(Reaccion r2 in p.reacciones)
                     {
                         if (p.reacciones[aux].usuario.Equals(usuarioActual))
@@ -180,7 +184,7 @@ namespace RedSocial
                             quitarReaccion(p, p.reacciones[aux]);
                         }
                     }
-                 
+
                 }
             }
         }
@@ -209,9 +213,9 @@ namespace RedSocial
             posts.Add(post); //agrego post a la lista de posts
         }
 
-        public bool modificarPost(int idPost,string comentario)
+        public bool modificarPost(int idPost, string comentario)
         {
-            
+
             int aux = posts.FindIndex(p => p.id == idPost);
             Post post = posts[aux];
             if (!post.usuario.Equals(usuarioActual)) return false;
@@ -252,9 +256,11 @@ namespace RedSocial
 
         }
 
-        public bool eliminarPost(int id) {
+        public bool eliminarPost(int id)
+        {
 
-            for (int i = 0; i < posts.Count; i++) {
+            for (int i = 0; i < posts.Count; i++)
+            {
                 if (posts[i].id == id)
                 {
                     if (!posts[i].usuario.Equals(usuarioActual)) return false;
@@ -302,10 +308,12 @@ namespace RedSocial
                 if (post.contenido.Contains(contenido))
                 {
                     bPost.Add(post);
-                } else if (post.fecha >= fechaDesde && post.fecha <= fechaHasta)
+                }
+                else if (post.fecha >= fechaDesde && post.fecha <= fechaHasta)
                 {
                     bPost.Add(post);
-                } else
+                }
+                else
                 {
                     foreach (Tag p in t)
                     {
@@ -327,7 +335,8 @@ namespace RedSocial
 
 
 
-        public void comentar(Post p, Comentario c) {
+        public void comentar(Post p, Comentario c)
+        {
 
             c.usuario = usuarioActual;
             c.post = p;
@@ -339,20 +348,22 @@ namespace RedSocial
         //Modificar comentario
         public void modificarComentario(int idComentario, string nuevoComentario)
         {
-                int aux = comentarios.FindIndex(c => c.id == idComentario);
+            int aux = comentarios.FindIndex(c => c.id == idComentario);
 
-            if (comentarios[aux].usuario.Equals(usuarioActual)){
+            if (comentarios[aux].usuario.Equals(usuarioActual))
+            {
                 comentarios[aux].contenido = nuevoComentario;
-            } 
-               
+            }
+
         }
 
         //Borrar comentario
-        private void quitarComentario(Post p, Comentario c) {
+        private void quitarComentario(Post p, Comentario c)
+        {
 
-            if(!c.usuario.Equals(usuarioActual)) return;
+            if (!c.usuario.Equals(usuarioActual)) return;
             int aux2 = posts.FindIndex(post => post.id == p.id);
-            
+
             posts[aux2].comentarios.Remove(c);
 
             int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
@@ -361,7 +372,8 @@ namespace RedSocial
             comentarios.Remove(c);
         }
 
-        public void quitarComentario(int idPost, int idComentario) {
+        public void quitarComentario(int idPost, int idComentario)
+        {
 
             foreach (Post p in posts)
             {
@@ -393,12 +405,13 @@ namespace RedSocial
 
             foreach (Usuario u in usuarios)
             {
- 
-                    if (!usuarioActual.amigos.Contains(u) && (u.id == id)) { 
+
+                if (!usuarioActual.amigos.Contains(u) && (u.id == id))
+                {
                     u.amigos.Add(usuarioActual);
                     usuarioActual.amigos.Add(u);
                     return true;
-                    }
+                }
 
             }
 
@@ -408,7 +421,7 @@ namespace RedSocial
 
         public Post buscarPost(int id)
         {
-            foreach(Post p in posts)
+            foreach (Post p in posts)
             {
                 if (p.id == id) return p;
             }
@@ -419,4 +432,4 @@ namespace RedSocial
 
     }
 
-}        
+}
