@@ -20,7 +20,7 @@ namespace RedSocial
             string connectionString = connectionDB;
 
             //Defino el string con la consulta que quiero realizar
-            string queryString = "SELECT * from dbo.Usuario";
+            string queryString = "SELECT * from dbo.USUARIO";
 
             // Creo una conexión SQL con un Using, de modo que al finalizar, la conexión se cierra y se liberan recursos
             using (SqlConnection connection =
@@ -41,6 +41,55 @@ namespace RedSocial
                     {
                         aux = new Usuario(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetBoolean(6), reader.GetInt32(7), reader.GetBoolean(8));
                         misUsuarios.Add(aux);
+                    }
+                    //En este punto ya recorrí todas las filas del resultado de la query
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
+        public void inicializarAmigos()
+        {
+            //Cargo la cadena de conexión desde el archivo de properties
+            string connectionString = connectionDB;
+
+            //Defino el string con la consulta que quiero realizar
+            string queryString = "SELECT * from dbo.AMIGO";
+
+            // Creo una conexión SQL con un Using, de modo que al finalizar, la conexión se cierra y se liberan recursos
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                // Defino el comando a enviar al motor SQL con la consulta y la conexión
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    //Abro la conexión
+                    connection.Open();
+                    //mi objecto DataReader va a obtener los resultados de la consulta, notar que a comando se le pide ExecuteReader()
+                    SqlDataReader reader = command.ExecuteReader();
+                    Usuario aux;
+                    //mientras haya registros/filas en mi DataReader, sigo leyendo
+                    while (reader.Read())
+                    {
+                        foreach (Usuario usuario in misUsuarios)
+                        {
+                            if(usuario.id == reader.GetInt32(1))
+                            {
+                                foreach (Usuario amigo in misUsuarios)
+                                {
+                                    if(amigo.id == reader.GetInt32(2))
+                                    {
+                                        usuario.amigos.Add(amigo);
+                                    }
+                                }
+                            }
+                        }
                     }
                     //En este punto ya recorrí todas las filas del resultado de la query
                     reader.Close();
@@ -256,5 +305,7 @@ namespace RedSocial
                 return false;
             }
         }
+
+        
     }
 }
