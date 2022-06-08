@@ -50,6 +50,28 @@ namespace RedSocial
                     Console.WriteLine(ex.Message);
                 }
             }
+
+            // relaciono las tablas con usuarios y posts
+            foreach(Comentario c in misComentarios)
+            {
+                foreach (Usuario u in misUsuarios)
+                {
+                    if (u.id == c.idUsuario)
+                    {
+                        u.misComentarios.Add(c);
+                        c.usuario = u;
+                    }
+                }
+
+                foreach (Post p in misPosts)
+                {
+                    if (c.idPost == p.id)
+                    {
+                        c.post = p;
+                        p.comentarios.Add(c);
+                    }
+                }
+            }
         }
 
         public bool registrarComentario(DateTime fecha, string contenido, int idUsuario, int idPost)
