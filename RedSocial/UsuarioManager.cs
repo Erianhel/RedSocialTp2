@@ -149,6 +149,44 @@ namespace RedSocial
             }
         }
 
+        public bool eliminarAmigo(int idAmigo, int idUsuario)
+        {
+            //primero me aseguro que lo pueda agregar a la base
+            int resultadoQuery;
+            string connectionString = connectionDB;
+            string queryString = "DELETE FROM [dbo].[AMIGO] WHERE ID_AMIGO=@idAmigo AND ID_USUARIO=@idUsuario";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@idAmigo", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+
+                command.Parameters["@idAmigo"].Value = idAmigo;
+                command.Parameters["@idUsuario"].Value = idUsuario;
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQuery = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+            if (resultadoQuery == 1)
+            {  
+                    return true;
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
+            }
+        }
+
         public List<List<string>> obtenerUsuarios()
         {
             List<List<string>> salida = new List<List<string>>();
