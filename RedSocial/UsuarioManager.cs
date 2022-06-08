@@ -11,10 +11,11 @@ namespace RedSocial
         public UsuarioManager()
         {
             misUsuarios = new List<Usuario>();
-            inicializarAtributos();
+            inicializarUsuarios();
+            inicializarAmigos();
         }
 
-        private void inicializarAtributos()
+        private void inicializarUsuarios()
         {
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
