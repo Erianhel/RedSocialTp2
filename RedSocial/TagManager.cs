@@ -83,7 +83,7 @@ namespace RedSocial
             {
 
                 //Ahora sí lo agrego en la lista
-                //Tag tag = new Tag(idNuevoUsuario, palabra);
+                Tag tag = new Tag(idNuevoTag, palabra);
 
                 misTags.Add(tag);
                 return true;
