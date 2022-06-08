@@ -11,10 +11,10 @@ namespace RedSocial
         public ComentarioManager()
         {
             misComentarios = new List<Comentario>();
-            inicializarAtributos();
+            inicializarComentarios();
         }
 
-        public List<Comentario> inicializarAtributos()
+        public List<Comentario> inicializarComentarios()
         {
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;

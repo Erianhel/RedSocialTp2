@@ -11,10 +11,10 @@ namespace RedSocial
         public ReaccionManager()
         {
             misReacciones = new List<Reaccion>();
-            inicializarAtributos();
+            inicializarReacciones();
         }
 
-        public List<Reaccion> inicializarAtributos()
+        public List<Reaccion> inicializarReacciones()
         {
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;

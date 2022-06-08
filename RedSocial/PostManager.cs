@@ -11,10 +11,10 @@ namespace RedSocial
         public PostManager()
         {
             misPosts = new List<Post>();
-            inicializarAtributos();
+            inicializarPost();
         }
 
-        public List <Post>inicializarAtributos()
+        public List <Post>inicializarPost()
         {
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
