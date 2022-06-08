@@ -80,13 +80,13 @@ namespace RedSocial
                     {
                         foreach (Usuario usuario in misUsuarios)
                         {
-                            if(usuario.id == reader.GetInt32(1))
+                            if(usuario.id == reader.GetInt32(2))
                             {
-                                foreach (Usuario amigo in misUsuarios)
+                                foreach (Usuario usuario2 in misUsuarios)
                                 {
-                                    if(amigo.id == reader.GetInt32(2))
+                                    if(usuario2.id == reader.GetInt32(1))
                                     {
-                                        usuario.amigos.Add(amigo);
+                                        usuario.amigos.Add(usuario2);
                                     }
                                 }
                             }
@@ -99,6 +99,53 @@ namespace RedSocial
                 {
                     Console.WriteLine(ex.Message);
                 }
+            }
+        }
+
+        public bool registrarAmigo(int idUsuario, int idAmigo)
+        {
+
+            //primero me aseguro que lo pueda agregar a la base
+            int resultadoQuery;
+            
+            string connectionString = connectionDB;
+            string queryString = "INSERT INTO [dbo].[AMIGO] ([ID_AMIGO],[ID_USUARIO]) VALUES (@idamigo,@idusuario);";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@idamigo", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@idusuario", SqlDbType.NVarChar));
+                
+
+                command.Parameters["@idamigo"].Value = idAmigo;
+                command.Parameters["@idusuario"].Value = idUsuario;
+                ;
+                
+
+                Console.WriteLine(queryString + "hola");
+
+
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQuery = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+            if (resultadoQuery == 1)
+            {
+                return true;
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
             }
         }
 
