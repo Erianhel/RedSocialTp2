@@ -13,18 +13,26 @@ namespace RedSocial
         private List<Post> posts;
         private List<Tag> tags;
         private List<Comentario> comentarios;
-        private UsuarioManager usuarioManager;
-
+        private DAL DB;
         public RedSocial()
         {
             usuarios = new List<Usuario>();
             posts = new List<Post>();
             tags = new List<Tag>();
             comentarios = new List<Comentario>();
+            DB = new DAL();
+            inicializarAtributos();
+        }
 
-            usuarioManager = new UsuarioManager();
-
-
+        private void inicializarAtributos()
+        {
+            usuarios = DB.inicializarUsuarios();
+            DB.inicializarAmigos();
+            posts = DB.inicializarPost();
+            DB.inicializarReacciones();
+            comentarios = DB.inicializarComentarios();
+            tags = DB.inicializarTags();
+            DB.inicializarTagsPost();
         }
 
         public bool iniciarSesion(string user, string pass)
@@ -61,9 +69,12 @@ namespace RedSocial
 
         //Seccion de logica Usuarios
 
-        public void registrarUsuario(string dni, string nombre, string apellido, string mail, string pass)
+        public void registrarUsuario(string dni, string nombre, string apellido, string mail,
+                string pass)
         {
-            usuarioManager.registrarUsuario(dni, nombre, apellido, mail, pass, false, 0, false);
+
+            usuarios.Add(new Usuario(cantidadUsuarios, dni, nombre, apellido, mail, pass));
+            cantidadUsuarios++;
         }
 
         public void modificarUsuario(Usuario u)

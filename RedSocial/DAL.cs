@@ -5,34 +5,37 @@ namespace RedSocial
 {
     public class DAL
     {
-        private List<Usuario> misUsuarios;
+        /*private List<Usuario> misUsuarios;
         private List<Post> misPosts;
-        private List<Reaccion> misReacciones;
-        private List<Comentario> misComentarios;
-        private List<Tag> misTags;
-        private string connectionDB = Properties.Resources.ConnectionString;
+        
+         misComentarios;
+         misTags;*/
+        private string connectionDB;
 
         public DAL()
         {
-            misUsuarios = new List<Usuario>();
-            misPosts = new List<Post>(); 
-            misReacciones = new List<Reaccion>(); 
-            misComentarios = new List<Comentario>();
-            misTags = new List<Tag>();
-            
 
-            inicializarUsuarios();
-            inicializarAmigos();
-            inicializarPost();
-            inicializarReacciones();
-            inicializarComentarios();
-            inicializarTags();
-            inicializarTagsPost();
+            connectionDB = Properties.Resources.ConnectionString;
+            /*misUsuarios = new List<Usuario>();
+            List<Post> misPosts = new List<Post>(); 
+            private List<Reaccion> misReacciones = new List<Reaccion>(); 
+            private List<Comentario> misComentarios = new List<Comentario>();
+            private List<Tag> misTags = new List<Tag>();*/
+
+
+            /* inicializarUsuarios();
+             inicializarAmigos();
+             inicializarPost();
+             inicializarReacciones();
+             inicializarComentarios();
+             inicializarTags();
+             inicializarTagsPost();*/
         }
 
         //============================================MANEJO DE USUARIOS / AMIGOS=============================================
         public List<Usuario> inicializarUsuarios()
         {
+            List<Usuario> misUsuarios = new List<Usuario>();
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
 
@@ -66,12 +69,13 @@ namespace RedSocial
                 {
                     Console.WriteLine(ex.Message);
                 }
+                inicializarAmigos(misUsuarios);
             }
 
             return misUsuarios;
         }
 
-        public void inicializarAmigos()
+        public void inicializarAmigos(List<Usuario>misUsuarios)
         {
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
@@ -204,15 +208,15 @@ namespace RedSocial
             }
         }
 
-        public List<List<string>> obtenerUsuarios()
+        /*public List<List<string>> obtenerUsuarios()
         {
             List<List<string>> salida = new List<List<string>>();
             foreach (Usuario u in misUsuarios)
                 salida.Add(new List<string>() { u.id.ToString(), u.dni.ToString(), u.nombre, u.apellido, u.mail, u.pass, u.esAdmin.ToString(), u.intentosFallidos.ToString(), u.bloqueado.ToString() });
             return salida;
-        }
+        }*/
 
-        public bool registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, int IntentosFallidos, bool Bloqueado)
+        public int  registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, int IntentosFallidos, bool Bloqueado)
         {
 
             //primero me aseguro que lo pueda agregar a la base
@@ -263,33 +267,15 @@ namespace RedSocial
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return false;
+                    return -1;
                 }
-            }
-            if (resultadoQuery == 1)
-            {
 
-                //Ahora sí lo agrego en la lista
-                Usuario nuevo = new Usuario(idNuevoUsuario,
-                                            Dni,
-                                            Nombre,
-                                            Apellido,
-                                            Mail,
-                                            Password,
-                                            EsADM,
-                                            IntentosFallidos,
-                                            Bloqueado);
-                misUsuarios.Add(nuevo);
-                return true;
+                return idNuevoUsuario;
             }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            
         }
 
-        public bool eliminarUsuario(int Id)
+        public int eliminarUsuario(int Id)
         {
             //primero me aseguro que lo pueda agregar a la base
             int resultadoQuery;
@@ -310,32 +296,13 @@ namespace RedSocial
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return false;
+                    return -1;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-                try
-                {
-                    //Ahora sí lo elimino en la lista
-                    for (int i = 0; i < misUsuarios.Count; i++)
-                        if (misUsuarios[i].id == Id)
-                            misUsuarios.RemoveAt(i);
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return resultadoQuery;
         }
 
-        public bool modificarUsuario(int Id, string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, int IntentosFallidos, bool Bloqueado)
+        public int modificarUsuario(int Id, string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, int IntentosFallidos, bool Bloqueado)
         {
             //primero me aseguro que lo pueda agregar a la base
             int resultadoQuery;
@@ -376,42 +343,16 @@ namespace RedSocial
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return false;
+                    return -1;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-                try
-                {
-                    //Ahora sí lo MODIFICO en la lista
-                    for (int i = 0; i < misUsuarios.Count; i++)
-                        if (misUsuarios[i].id == Id)
-                        {
-                            misUsuarios[i].nombre = Nombre;
-                            misUsuarios[i].apellido = Apellido;
-                            misUsuarios[i].mail = Mail;
-                            misUsuarios[i].pass = Password;
-                            misUsuarios[i].esAdmin = EsADM;
-                            misUsuarios[i].bloqueado = Bloqueado;
-                            misUsuarios[i].intentosFallidos = IntentosFallidos;
-                        }
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return resultadoQuery;
         }
 
         //============================================MANEJO DE POSTS=============================================
-        public List<Post> inicializarPost()
+        public List<Post> inicializarPost(List<Usuario>misUsuarios)
         {
+            List<Post> misPosts = new List<Post>();
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
 
@@ -462,7 +403,7 @@ namespace RedSocial
             return misPosts;
         }
 
-        public bool Postear(string contenido, DateTime fecha, int idUsuario)
+        public int Postear(string contenido, DateTime fecha, int idUsuario)
         {
 
             //primero me aseguro que lo pueda agregar a la base
@@ -503,25 +444,10 @@ namespace RedSocial
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return false;
+                    return -1;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-
-                //Ahora sí lo agrego en la lista
-                Post nuevo = new Post(idNuevoPost,
-                                            fecha,
-                                            contenido,
-                                            idUsuario);
-                misPosts.Add(nuevo);
-                return true;
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return idNuevoPost;
         }
 
         public bool eliminarPost(int Id)
@@ -548,26 +474,7 @@ namespace RedSocial
                     return false;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-                try
-                {
-                    //Ahora sí lo elimino en la lista
-                    for (int i = 0; i < misPosts.Count; i++)
-                        if (misPosts[i].id == Id)
-                            misPosts.RemoveAt(i);
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return true;
         }
 
         public bool modificarPost(int id, string contenido)
@@ -601,34 +508,13 @@ namespace RedSocial
                     return false;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-                try
-                {
-                    //Ahora sí lo MODIFICO en la lista
-                    for (int i = 0; i < misPosts.Count; i++)
-                        if (misPosts[i].id == id)
-                        {
-                            misPosts[i].contenido = contenido;
-
-                        }
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return true;
         }
 
         //============================================MANEJO DE REACCIONES=============================================
-        public List<Reaccion> inicializarReacciones()
+        public List<Reaccion> inicializarReacciones(List<Post>misPosts, List<Usuario> misUsuarios)
         {
+            List<Reaccion> misReacciones = new List<Reaccion>();
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
 
@@ -688,7 +574,7 @@ namespace RedSocial
             return misReacciones;
         }
 
-        public bool Reaccionar(int tipo, int idPost, int idUsuario)
+        public int Reaccionar(int tipo, int idPost, int idUsuario)
         {
 
             //primero me aseguro que lo pueda agregar a la base
@@ -729,25 +615,10 @@ namespace RedSocial
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return false;
+                    return -1;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-
-                //Ahora sí lo agrego en la lista
-                Reaccion nuevo = new Reaccion(idNuevaReaccion,
-                                            tipo,
-                                            idPost,
-                                            idUsuario);
-                misReacciones.Add(nuevo);
-                return true;
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return idNuevaReaccion;
         }
 
         public bool eliminarReaccion(int Id)
@@ -774,26 +645,7 @@ namespace RedSocial
                     return false;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-                try
-                {
-                    //Ahora sí lo elimino en la lista
-                    for (int i = 0; i < misReacciones.Count; i++)
-                        if (misReacciones[i].id == Id)
-                            misReacciones.RemoveAt(i);
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return true;
         }
 
         public bool modificarReaccion(int id, int tipo)
@@ -827,35 +679,14 @@ namespace RedSocial
                     return false;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-                try
-                {
-                    //Ahora sí lo MODIFICO en la lista
-                    for (int i = 0; i < misReacciones.Count; i++)
-                        if (misReacciones[i].id == id)
-                        {
-                            misReacciones[i].tipo = tipo;
-
-                        }
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return true;
         }
 
         //============================================MANEJO DE COMENTARIOS=============================================
 
-        public List<Comentario> inicializarComentarios()
+        public List<Comentario> inicializarComentarios(List<Post>misPosts,List<Usuario> misUsuarios)
         {
+            List<Comentario> misComentarios = new List<Comentario>();
             //Cargo la cadena de conexión desde el archivo de properties
             string connectionString = connectionDB;
 
@@ -917,7 +748,7 @@ namespace RedSocial
             return misComentarios;
         }
 
-        public bool registrarComentario(DateTime fecha, string contenido, int idUsuario, int idPost)
+        public int registrarComentario(DateTime fecha, string contenido, int idUsuario, int idPost)
         {
 
             //primero me aseguro que lo pueda agregar a la base
@@ -960,26 +791,10 @@ namespace RedSocial
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return false;
+                    return -1;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-
-                //Ahora sí lo agrego en la lista
-                Comentario nuevo = new Comentario(idNuevoComentario,
-                                            fecha,
-                                            contenido,
-                                            idUsuario,
-                                            idPost);
-                misComentarios.Add(nuevo);
-                return true;
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return idNuevoComentario;
         }
 
         public bool eliminarComentario(int id)
@@ -1006,26 +821,7 @@ namespace RedSocial
                     return false;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-                try
-                {
-                    //Ahora sí lo elimino en la lista
-                    for (int i = 0; i < misComentarios.Count; i++)
-                        if (misComentarios[i].id == id)
-                            misComentarios.RemoveAt(i);
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return true;
         }
 
         public bool modificarComentario(int id, string contenido)
@@ -1060,29 +856,7 @@ namespace RedSocial
                     return false;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-                try
-                {
-                    //Ahora sí lo MODIFICO en la lista
-                    for (int i = 0; i < misComentarios.Count; i++)
-                        if (misComentarios[i].id == id)
-                        {
-                            misComentarios[i].contenido = contenido;
-
-                        }
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return true;
         }
 
         //============================================MANEJO DE TAG=============================================
@@ -1118,7 +892,7 @@ namespace RedSocial
             return misTags;
         }
 
-        public bool altaTag(string palabra)
+        public bool altaTag(string palabra, int idPost)
         {
 
             //primero me aseguro que lo pueda agregar a la base
@@ -1156,20 +930,7 @@ namespace RedSocial
                     return false;
                 }
             }
-            if (resultadoQuery == 1)
-            {
-
-                //Ahora sí lo agrego en la lista
-                Tag tag = new Tag(idNuevoTag, palabra);
-
-                misTags.Add(tag);
-                return true;
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
-                return false;
-            }
+            return true;
         }
 
         public bool bajaTag(int Id)
