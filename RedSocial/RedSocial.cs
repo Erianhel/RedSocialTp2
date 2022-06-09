@@ -27,10 +27,9 @@ namespace RedSocial
         private void inicializarAtributos()
         {
             usuarios = DB.inicializarUsuarios();
-            DB.inicializarAmigos();
-            posts = DB.inicializarPost();
-            DB.inicializarReacciones();
-            comentarios = DB.inicializarComentarios();
+            posts = DB.inicializarPost(usuarios);
+            DB.inicializarReacciones(posts, usuarios);
+            comentarios = DB.inicializarComentarios(posts, usuarios);
             tags = DB.inicializarTags();
             DB.inicializarTagsPost();
         }
@@ -44,6 +43,7 @@ namespace RedSocial
                 if (usuario.intentosFallidos == 3)
                 {
                     usuarios[usuario.id].bloqueado = true;
+                    DB.modificarUsuario(usuario.id, usuario.dni, usuario.nombre, usuario.apellido, usuario.mail, usuario.pass, usuario.esAdmin, 3, true);
                 }
 
                 if (usuario.nombre.Equals(user) && usuario.pass.Equals(pass) && usuario.bloqueado != true)
@@ -67,224 +67,298 @@ namespace RedSocial
             usuarioActual = null;
         }
 
-        //Seccion de logica Usuarios
-
-        public void registrarUsuario(string dni, string nombre, string apellido, string mail,
-                string pass)
+        //======================================MANEJO DE USUARIOS=========================================
+        public bool registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password)
         {
-
-            usuarios.Add(new Usuario(cantidadUsuarios, dni, nombre, apellido, mail, pass));
-            cantidadUsuarios++;
-        }
-
-        public void modificarUsuario(Usuario u)
-        {
-            //Busco en la lista el indice del usuario
-            int aux = usuarios.FindIndex(usuario => usuario.id == u.id);
-            usuarios[aux] = u;
-        }
-
-
-        public void eliminarUsuario(int id)
-        {
-            foreach (Usuario usuario in usuarios)
+            //comprobación para que no me agreguen usuarios con DNI duplicado
+            bool esValido = true;
+            foreach (Usuario u in usuarios)
             {
-                if (usuario.id == id)
+                if (u.dni.Equals(Dni))
                 {
-                    usuarios.Remove(usuario);
+                    esValido = false;
                 }
+            }
+            if (esValido)
+            {
+                int idNuevoUsuario;
+                idNuevoUsuario = DB.registrarUsuario(Dni, Nombre, Apellido, Mail, Password, false, 0, false);
+                if (idNuevoUsuario != -1)
+                {
+                    //Ahora sí lo agrego en la lista
+                    Usuario nuevo = new Usuario(idNuevoUsuario, Dni, Nombre, Apellido, Mail, Password, false, 0, false);
+                    usuarios.Add(nuevo);
+                    return true;
+                }
+                else
+                {
+                    //algo salió mal con la query porque no generó un id válido
+                    return false;
+                }
+            }
+            else
+                return false;
+        }
+
+        public bool eliminarUsuario(int Id)
+        {
+            //primero me aseguro que lo pueda agregar a la base
+            if (DB.eliminarUsuario(Id) == 1)
+            {
+                try
+                {
+                    //Ahora sí lo elimino en la lista
+                    for (int i = 0; i < usuarios.Count; i++)
+                        if (usuarios[i].id == Id)
+                            usuarios.RemoveAt(i);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
             }
         }
 
-        //Seccion Amigos
-
-
-        private void quitarAmigo(Usuario exAmigo)
+        public bool modificarUsuario(int Id, string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, int IntentosFallidos, bool Bloqueado)
         {
-            //Se elimina el amigo
-            int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
-            usuarios[aux].amigos.Remove(exAmigo);
-
-            //El usuario que fue eliminado, tambien elimina al usuario que lo elimino
-            int aux2 = usuarios.FindIndex(usuario => usuario.id == exAmigo.id);
-            usuarios[aux2].amigos.Remove(usuarioActual);
-        }
-
-        public void quitarAmigo(int id)
-        {
-            foreach (Usuario usuario in usuarios)
+            //primero me aseguro que lo pueda agregar a la base
+            if (DB.modificarUsuario(Id, Dni, Nombre, Apellido, Mail, Password, EsADM, IntentosFallidos, Bloqueado) == 1)
             {
-                if (usuario.id == id)
+                try
                 {
-                    quitarAmigo(usuario);
+                    //Ahora sí lo MODIFICO en la lista
+                    for (int i = 0; i < usuarios.Count; i++)
+                        if (usuarios[i].id == Id)
+                        {
+                            usuarios[i].nombre = Nombre;
+                            usuarios[i].apellido = Apellido;
+                            usuarios[i].dni = Dni;
+                            usuarios[i].mail = Mail;
+                            usuarios[i].pass = Password;
+                            usuarios[i].esAdmin = EsADM;
+                            usuarios[i].intentosFallidos = IntentosFallidos;
+                            usuarios[i].bloqueado = Bloqueado;
+                        }
+                    return true;
                 }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
             }
         }
 
-        // Seccion de logica de Reacciones.
+        //===========================================MANEJO DE AMIGOS==================================================
 
-        public bool reaccionar(int idPost, int tipoReaccion, Usuario u)
+        public bool agregarAmigo(int id)
         {
-            Post PostAModif = null;
-            foreach (Post p in posts)
+            if (DB.registrarAmigo(usuarioActual.id, id))
             {
-                if (p.id == idPost)
+                foreach (Usuario u in usuarios)
                 {
-                    PostAModif = p;
-                }
-            }
-            if (PostAModif != null)
-            {
-                foreach (Reaccion r in PostAModif.reacciones)
-                {
-                    if (r.usuario.Equals(u))
+
+                    if (!usuarioActual.amigos.Contains(u) && (u.id == id))
                     {
-                        return false;
+                        u.amigos.Add(usuarioActual);
+                        usuarioActual.amigos.Add(u);
+                        return true;
                     }
+
                 }
-                Reaccion Nueva = new Reaccion(tipoReaccion, PostAModif, u);
-                PostAModif.reacciones.Add(Nueva);
-                u.misReacciones.Add(Nueva);
-                return true;
             }
             return false;
         }
 
-
-        private void modificarReaccion(Post post, Reaccion r)
+        public void quitarAmigo(int id)
         {
-            int aux2 = posts.FindIndex(p => p.id == post.id);
 
-            //busco el indice de la reaccion en la lista de posts
-            int aux = posts[aux2].reacciones.FindIndex((reaccion) => reaccion.id == r.id);
-
-            //reemplazo por nueva reaccion
-            posts[aux2].reacciones[aux] = r;
-        }
-
-        public void modificarReaccion(int id, int tipoReaccion, Usuario u)
-        {
-            foreach (Post p in posts)
+            if (DB.eliminarAmigo(id, usuarioActual.id))
             {
-                if (p.id == id)
+                foreach (Usuario u in usuarios)
                 {
-                    modificarReaccion(p, new(tipoReaccion, p, u));
+
+                    if (u.id == id)
+                    {
+                        //Se elimina el amigo
+                        int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
+                        usuarios[aux].amigos.Remove(u);
+
+                        //El usuario que fue eliminado, tambien elimina al usuario que lo elimino
+                        int aux2 = usuarios.FindIndex(usuario => usuario.id == u.id);
+                        usuarios[aux2].amigos.Remove(usuarioActual);
+
+                    }
                 }
             }
+
         }
 
-
-        private void quitarReaccion(Post post, Reaccion r)
+        //===========================================MANEJO DE REACCIONES==================================================
+        public bool reaccionar(int idPost, int tipoReaccion, int idUsuario)
         {
-            //Borro reaccion de la lista
-            int aux2 = posts.FindIndex(p => p.id == post.id);
-            posts[aux2].reacciones.Remove(r);
-        }
 
-        public void quitarReaccion(int id)
-        {
-            foreach (Post p in posts)
+            int idNuevaReaccion = DB.Reaccionar(tipoReaccion, idPost, idUsuario);
+            if (idNuevaReaccion != -1)
             {
-                if (p.id == id)
+                Post PostAModif = null;
+                foreach (Post p in posts)
                 {
-                    for (int aux = 0; aux < p.reacciones.Count; aux++)
-                    //foreach(Reaccion r2 in p.reacciones)
+                    if (p.id == idPost)
                     {
-                        if (p.reacciones[aux].usuario.Equals(usuarioActual))
+                        PostAModif = p;
+                    }
+                }
+                if (PostAModif != null)
+                {
+                    foreach (Reaccion r in PostAModif.reacciones)
+                    {
+                        if (r.usuario.id == idUsuario)
                         {
-                            quitarReaccion(p, p.reacciones[aux]);
+                            return false;
                         }
                     }
-
-                }
-            }
-        }
-
-
-        //---------------------------METODOS DEL POSTEO-------------------
-        public void postear(Post post, List<Tag> tag)
-        {
-            List<Tag> auxTags = new List<Tag>();
-
-            foreach (Tag t in tag)
-            {
-                //agrego los tag que no existan a la lista de tags 
-                if (!tags.Contains(t))
-                {
-                    tags.Add(t);
-                }
-
-                //agrego post a la lista post con esos tags 
-                int taux = tags.FindIndex(ta => ta.id == t.id);
-                tags[taux].posts.Add(post);
-            }
-
-            post.tags = tag; //agrego la lista de tags al post
-            usuarioActual.misPost.Add(post); // agrega post al usuario actual en la lista de usuarios
-            posts.Add(post); //agrego post a la lista de posts
-        }
-
-        public bool modificarPost(int idPost, string comentario)
-        {
-
-            int aux = posts.FindIndex(p => p.id == idPost);
-            Post post = posts[aux];
-            if (!post.usuario.Equals(usuarioActual)) return false;
-            post.contenido = comentario;
-            //busca el espacio de memoria una vez y como modifica el espacio de memoria 
-            //se modifica en todas partes
-            return true;
-        }
-
-        private void eliminarPost(Post post)
-
-        {
-            //busco al usuario en la lista de usuarios
-            int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
-
-            //busco la reaccion correspondiente al post 
-            Reaccion reaccionEliminar;
-            if (post.reacciones != null)
-            {
-                //elimino la reaccion correspondiente al post
-                reaccionEliminar = usuarios[aux].misReacciones.Find(x => x.post.Equals(post));
-                usuarios[aux].misReacciones.Remove(reaccionEliminar);
-            }
-            //Busco el comentario correspondiente al post
-            Comentario comentarioEliminar;
-            if (post.comentarios != null)
-            {
-                //Se elimina el comentario del post
-                comentarioEliminar = usuarios[aux].misComentarios.Find(x => x.post.Equals(post));
-                usuarios[aux].misComentarios.Remove(comentarioEliminar);
-            }
-
-            usuarios[aux].misPost.Remove(post); // borro el post de la lista de posts del usuario
-
-
-
-            posts.Remove(post); //borro el post de la lista de posts
-
-        }
-
-        public bool eliminarPost(int id)
-        {
-
-            for (int i = 0; i < posts.Count; i++)
-            {
-                if (posts[i].id == id)
-                {
-                    if (!posts[i].usuario.Equals(usuarioActual)) return false;
-                    eliminarPost(posts[i]);
+                    Reaccion Nueva = new Reaccion(idNuevaReaccion, tipoReaccion, PostAModif.id, idUsuario);
+                    PostAModif.reacciones.Add(Nueva);
+                    usuarioActual.misReacciones.Add(Nueva);
                     return true;
                 }
             }
             return false;
         }
 
-        //---------------------------MOSTRAR DATOS-------------------
 
-        //Mostrar datos usuario
+        public void modificarReaccion(int idReaccion, int tipo, int idPost)
+        {
+
+            if (DB.modificarReaccion(idReaccion, tipo))
+            {
+                foreach (Post p in posts)
+                {
+                    if (p.id == idPost)
+                    {
+                        //busco el indice de la reaccion en la lista de posts
+                        int aux = p.reacciones.FindIndex((reaccion) => reaccion.id == idReaccion);
+                        p.reacciones[aux].tipo = tipo;
+                    }
+                }
+
+            }
+
+        }
+
+        public void quitarReaccion(int idPost, int idReaccion)
+        {
+            if (DB.eliminarReaccion(idReaccion))
+            {
+                //Borro reaccion de la lista
+                foreach (Post p in posts)
+                {
+                    if (p.id == idPost)
+                    {
+                        //busco el indice de la reaccion en la lista de posts
+                        int aux = p.reacciones.FindIndex((reaccion) => reaccion.id == idReaccion);
+                        p.reacciones.RemoveAt(aux);
+                    }
+                }
+            }
+
+        }
+
+        //===========================================MANEJO DE POSTEOS==================================================
+        public void postear(string contenido, DateTime fecha, int idUsuario, List<Tag> tag)
+        {
+            int idNuevoPost;
+            idNuevoPost = DB.Postear(contenido, fecha, idUsuario);
+
+            if (idNuevoPost != -1)
+            {
+                //Ahora sí lo agrego en la lista
+                Post nuevo = new Post(idNuevoPost,
+                                            fecha,
+                                            contenido,
+                                            idUsuario);
+                nuevo.usuario = usuarioActual;
+                foreach (Tag t in tag)
+                {
+                    t.posts.Add(nuevo);
+                    nuevo.tags.Add(t);
+
+                    if (!tags.Contains(t))
+                    {
+                        tags.Add(t);
+                    }
+                }
+                posts.Add(nuevo);
+                usuarioActual.misPost.Add(nuevo);
+
+            }
+
+        }
+
+        public bool modificarPost(int idPost, string comentario)
+        {
+            int aux = posts.FindIndex(p => p.id == idPost);
+            Post post = posts[aux];
+
+            if (!post.usuario.Equals(usuarioActual)) return false;
+
+            if (DB.modificarPost(idPost, comentario))
+            {
+                post.contenido = comentario;
+                return true;
+            }
+            return false;
+        }
+
+        public void eliminarPost(int idPost)
+
+        {
+            //Busco el post a eliminar
+            int auxPost = posts.FindIndex(p => p.id == idPost);
+
+            //busco al usuario en la lista de usuarios
+            int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
+
+            //busco la reaccion correspondiente al post 
+            Reaccion reaccionEliminar;
+            if (posts[auxPost].reacciones != null)
+            {
+                //elimino la reaccion correspondiente al post
+                reaccionEliminar = usuarios[aux].misReacciones.Find(x => x.post.Equals(posts[auxPost]));
+                usuarios[aux].misReacciones.Remove(reaccionEliminar);
+                DB.eliminarReaccion(reaccionEliminar.id);
+            }
+
+            if (posts[auxPost].comentarios != null)
+            {
+                foreach (Comentario c in posts[auxPost].comentarios)
+                {
+                    // Se elimina el comentario del post
+                    usuarios[aux].misComentarios.Remove(c);
+                    DB.eliminarComentario(c.id);
+                }
+
+            }
+
+            DB.eliminarPost(idPost);
+            usuarios[aux].misPost.Remove(posts[auxPost]); // borro el post de la lista de posts del usuario
+            posts.RemoveAt(auxPost); //borro el post de la lista de posts
+
+        }
+
+        //===========================================MOSTRAR DATOS==================================================
+
         public Usuario mostrarDatos()
         {
             return usuarioActual;
@@ -341,102 +415,61 @@ namespace RedSocial
             return bPost;
         }
 
+        //===========================================MANEJO DE COMENTARIOS==================================================
 
-        //Metodos Comentarios
-
-
-
-        public void comentar(Post p, Comentario c)
+        public void comentar(int idPost, String contenido, DateTime fecha)
         {
+            int idNuevoComentario;
+            idNuevoComentario = DB.registrarComentario(fecha, contenido, usuarioActual.id, idPost);
+            if (idNuevoComentario != -1)
+            {
+                //Ahora sí lo agrego en la lista
+                Comentario nuevo = new Comentario(idNuevoComentario, fecha, contenido, usuarioActual.id, idPost);
+                nuevo.usuario = usuarioActual;
 
-            c.usuario = usuarioActual;
-            c.post = p;
+                int aux = posts.FindIndex(p => p.id == idPost);
+                nuevo.post = posts[aux];
 
-            comentarios.Add(c);
-            p.comentarios.Add(c);
+                comentarios.Add(nuevo);
+                posts[aux].comentarios.Add(nuevo);
+
+            }
         }
 
         //Modificar comentario
         public void modificarComentario(int idComentario, string nuevoComentario)
         {
-            int aux = comentarios.FindIndex(c => c.id == idComentario);
 
-            if (comentarios[aux].usuario.Equals(usuarioActual))
+            if (DB.modificarComentario(idComentario, nuevoComentario))
             {
-                comentarios[aux].contenido = nuevoComentario;
+                int aux = comentarios.FindIndex(c => c.id == idComentario);
+
+                if (comentarios[aux].usuario.Equals(usuarioActual))
+                {
+                    comentarios[aux].contenido = nuevoComentario;
+                }
             }
 
         }
 
         //Borrar comentario
-        private void quitarComentario(Post p, Comentario c)
-        {
-
-            if (!c.usuario.Equals(usuarioActual)) return;
-            int aux2 = posts.FindIndex(post => post.id == p.id);
-
-            posts[aux2].comentarios.Remove(c);
-
-            int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
-            usuarios[aux].misComentarios.Remove(c);
-
-            comentarios.Remove(c);
-        }
-
         public void quitarComentario(int idPost, int idComentario)
         {
+            int auxCom = comentarios.FindIndex(c => c.id == idComentario);
+            if (!comentarios[auxCom].usuario.Equals(usuarioActual) && !usuarioActual.esAdmin) return;
 
-            foreach (Post p in posts)
+            if (DB.eliminarComentario(idComentario))
             {
-                if (p.id == idPost)
-                {
-                    for (int i = 0; i < p.comentarios.Count; i++)
-                    //foreach (Comentario c in p.comentarios)
-                    {
-                        if (p.comentarios[i].id == idComentario)
-                        {
-                            quitarComentario(p, p.comentarios[i]);
-                        }
-                    }
+                int aux2 = posts.FindIndex(post => post.id == idPost);
 
-                }
-            }
-        }
+                posts[aux2].comentarios.Remove(comentarios[auxCom]);
 
+                int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
+                usuarios[aux].misComentarios.Remove(comentarios[auxCom]);
 
-        public List<Usuario> getUsuarios()
-        {
-            return this.usuarios;
-        }
-
-        //-------------------------------Metodos de busqueda-------------------------------
-
-        public bool agregarAmigo(int id)
-        {
-
-            foreach (Usuario u in usuarios)
-            {
-
-                if (!usuarioActual.amigos.Contains(u) && (u.id == id))
-                {
-                    u.amigos.Add(usuarioActual);
-                    usuarioActual.amigos.Add(u);
-                    return true;
-                }
-
+                comentarios.Remove(comentarios[auxCom]);
             }
 
-            return false;
-        }
-
-
-        public Post buscarPost(int id)
-        {
-            foreach (Post p in posts)
-            {
-                if (p.id == id) return p;
-            }
-            return null;
         }
 
 
