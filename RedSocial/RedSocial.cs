@@ -31,7 +31,7 @@ namespace RedSocial
             DB.inicializarReacciones(posts, usuarios);
             comentarios = DB.inicializarComentarios(posts, usuarios);
             tags = DB.inicializarTags();
-            DB.inicializarTagsPost();
+            DB.inicializarTagsPost(posts,tags);
         }
 
         public bool iniciarSesion(string user, string pass)

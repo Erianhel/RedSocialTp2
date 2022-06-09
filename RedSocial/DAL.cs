@@ -1028,7 +1028,7 @@ namespace RedSocial
             }
         }
         //============================================MANEJO DE TAG-POST=============================================
-        public void inicializarTagsPost()
+        public void inicializarTagsPost(List<Post>misPosts, List<Tag> misTags)
         {
 
             string queryString = "SELECT * from dbo.Tag";
