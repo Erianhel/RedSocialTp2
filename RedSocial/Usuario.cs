@@ -29,7 +29,7 @@ namespace RedSocial
         public List<Reaccion> misReacciones = new List<Reaccion>();
 
 
-        public Usuario(int id, string dni, string nombre, string apellido, string mail, string pass, bool esAdmin, int intentosFallidos, bool bloqueado) 
+        public Usuario(int id, string dni, string nombre, string apellido, string mail, string pass, bool esAdmin, bool bloqueado, int intentosFallidos) 
         {
             this.id = id;
             this.dni = dni;

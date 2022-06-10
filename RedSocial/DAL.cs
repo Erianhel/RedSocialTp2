@@ -59,7 +59,7 @@ namespace RedSocial
                     //mientras haya registros/filas en mi DataReader, sigo leyendo
                     while (reader.Read())
                     {
-                        aux = new Usuario(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetBoolean(6), reader.GetInt32(7), reader.GetBoolean(8));
+                        aux = new Usuario(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetBoolean(6), reader.GetBoolean(7), reader.GetInt32(8));
                         misUsuarios.Add(aux);
                     }
                     //En este punto ya recorrí todas las filas del resultado de la query
@@ -216,14 +216,14 @@ namespace RedSocial
             return salida;
         }*/
 
-        public int  registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, int IntentosFallidos, bool Bloqueado)
+        public int  registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, bool Bloqueado, int IntentosFallidos)
         {
 
             //primero me aseguro que lo pueda agregar a la base
             int resultadoQuery;
             int idNuevoUsuario = -1;
             string connectionString = connectionDB;
-            string queryString = "INSERT INTO [dbo].[Usuario] ([DNI],[NOMBRE],[APELLIDO],[MAIL],[PASSWORD],[ES_ADMIN],[BLOQUEADO],[INTENTOS_FALLIDOS]) VALUES (@dni,@nombre,@apellido,@mail,@password,@esadm,@bloqueado,@intentosFallidos);";
+            string queryString = "INSERT INTO [dbo].[Usuario] ([DNI],[NOMBRE],[APELLIDO],[MAIL],[PASSWORD],[ES_ADMIN],[BLOQUEADO],[INTENTOS_FALLIDOS]) VALUES (@dni,@nombre,@apellido,@mail,@password,@esAdmin,@bloqueado,@intentosFallidos);";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
@@ -233,7 +233,7 @@ namespace RedSocial
                 command.Parameters.Add(new SqlParameter("@apellido", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@mail", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@password", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@esadm", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@esAdmin", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@bloqueado", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@intentosFallidos", SqlDbType.Int));
 
@@ -242,7 +242,7 @@ namespace RedSocial
                 command.Parameters["@apellido"].Value = Apellido;
                 command.Parameters["@mail"].Value = Mail;
                 command.Parameters["@password"].Value = Password;
-                command.Parameters["@esadm"].Value = EsADM;
+                command.Parameters["@esAdmin"].Value = EsADM;
                 command.Parameters["@bloqueado"].Value = Bloqueado;
                 command.Parameters["@intentosFallidos"].Value = IntentosFallidos;
 
@@ -302,12 +302,12 @@ namespace RedSocial
             return resultadoQuery;
         }
 
-        public int modificarUsuario(int Id, string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, int IntentosFallidos, bool Bloqueado)
+        public int modificarUsuario(int Id, string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, bool Bloqueado, int IntentosFallidos)
         {
             //primero me aseguro que lo pueda agregar a la base
             int resultadoQuery;
             string connectionString = connectionDB;
-            string queryString = "UPDATE [dbo].[Usuario] SET NOMBRE=@nombre, APELLIDO=@apellido,MAIL=@mail,PASSWORD=@password, ES_ADMIN=@esadm, BLOQUEADO=@bloqueado, INTENTOS_FALLIDOS=@intentosFallidos WHERE ID=@id;";
+            string queryString = "UPDATE [dbo].[Usuario] SET NOMBRE=@nombre, APELLIDO=@apellido,MAIL=@mail,PASSWORD=@password, ES_ADMIN=@esAdmin, BLOQUEADO=@bloqueado, INTENTOS_FALLIDOS=@intentosFallidos WHERE ID=@id;";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
@@ -321,7 +321,7 @@ namespace RedSocial
                 command.Parameters.Add(new SqlParameter("@apellido", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@mail", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@password", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@esadm", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@esAdmin", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@bloqueado", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@intentosFallidos", SqlDbType.Int));
                 command.Parameters["@id"].Value = Id;
@@ -330,7 +330,7 @@ namespace RedSocial
                 command.Parameters["@apellido"].Value = Apellido;
                 command.Parameters["@mail"].Value = Mail;
                 command.Parameters["@password"].Value = Password;
-                command.Parameters["@esadm"].Value = EsADM;
+                command.Parameters["@esAdmin"].Value = EsADM;
                 command.Parameters["@bloqueado"].Value = Bloqueado;
                 command.Parameters["@intentosFallidos"].Value = IntentosFallidos;
 

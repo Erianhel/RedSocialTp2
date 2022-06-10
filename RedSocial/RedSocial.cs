@@ -31,7 +31,7 @@ namespace RedSocial
             DB.inicializarReacciones(posts, usuarios);
             comentarios = DB.inicializarComentarios(posts, usuarios);
             tags = DB.inicializarTags();
-            DB.inicializarTagsPost(posts,tags);
+            DB.inicializarTagsPost(posts, tags);
         }
 
         public bool iniciarSesion(string user, string pass)
@@ -43,7 +43,7 @@ namespace RedSocial
                 if (usuario.intentosFallidos == 3)
                 {
                     usuarios[usuario.id].bloqueado = true;
-                    DB.modificarUsuario(usuario.id, usuario.dni, usuario.nombre, usuario.apellido, usuario.mail, usuario.pass, usuario.esAdmin, 3, true);
+                    DB.modificarUsuario(usuario.id, usuario.dni, usuario.nombre, usuario.apellido, usuario.mail, usuario.pass, usuario.esAdmin, true, 3);
                 }
 
                 if (usuario.nombre.Equals(user) && usuario.pass.Equals(pass) && usuario.bloqueado != true)
@@ -72,7 +72,7 @@ namespace RedSocial
         {
             return usuarios;
         }
-        public bool registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password,bool admin)
+        public bool registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password, bool admin)
         {
             //comprobación para que no me agreguen usuarios con DNI duplicado
             bool esValido = true;
@@ -86,11 +86,11 @@ namespace RedSocial
             if (esValido)
             {
                 int idNuevoUsuario;
-                idNuevoUsuario = DB.registrarUsuario(Dni, Nombre, Apellido, Mail, Password, admin, 0, false);
+                idNuevoUsuario = DB.registrarUsuario(Dni, Nombre, Apellido, Mail, Password, admin, false, 0);
                 if (idNuevoUsuario != -1)
                 {
                     //Ahora sí lo agrego en la lista
-                    Usuario nuevo = new Usuario(idNuevoUsuario, Dni, Nombre, Apellido, Mail, Password, admin, 0, false);
+                    Usuario nuevo = new Usuario(idNuevoUsuario, Dni, Nombre, Apellido, Mail, Password, admin, false, 0);
                     usuarios.Add(nuevo);
                     return true;
                 }
@@ -129,10 +129,10 @@ namespace RedSocial
             }
         }
 
-        public bool modificarUsuario(int Id, string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, int IntentosFallidos, bool Bloqueado)
+        public bool modificarUsuario(int Id, string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, bool Bloqueado, int IntentosFallidos)
         {
             //primero me aseguro que lo pueda agregar a la base
-            if (DB.modificarUsuario(Id, Dni, Nombre, Apellido, Mail, Password, EsADM, IntentosFallidos, Bloqueado) == 1)
+            if (DB.modificarUsuario(Id, Dni, Nombre, Apellido, Mail, Password, EsADM, Bloqueado,IntentosFallidos) == 1)
             {
                 try
                 {
@@ -146,8 +146,8 @@ namespace RedSocial
                             usuarios[i].mail = Mail;
                             usuarios[i].pass = Password;
                             usuarios[i].esAdmin = EsADM;
-                            usuarios[i].intentosFallidos = IntentosFallidos;
                             usuarios[i].bloqueado = Bloqueado;
+                            usuarios[i].intentosFallidos = IntentosFallidos;
                         }
                     return true;
                 }
