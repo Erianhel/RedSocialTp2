@@ -109,6 +109,7 @@ namespace RedSocial
                                     if (usuario2.id == reader.GetInt32(1))
                                     {
                                         usuario.amigos.Add(usuario2);
+                                        usuario2.amigos.Add(usuario);
                                     }
                                 }
                             }
@@ -493,7 +494,7 @@ namespace RedSocial
                 command.Parameters.Add(new SqlParameter("@contenido", SqlDbType.NVarChar));
 
                 command.Parameters["@id"].Value = id;
-                command.Parameters["@dni"].Value = contenido;
+                command.Parameters["@contenido"].Value = contenido;
 
                 try
                 {
