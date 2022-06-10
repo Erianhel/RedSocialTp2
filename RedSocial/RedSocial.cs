@@ -68,6 +68,10 @@ namespace RedSocial
         }
 
         //======================================MANEJO DE USUARIOS=========================================
+        public List<Usuario> getUsuarios()
+        {
+            return usuarios;
+        }
         public bool registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password)
         {
             //comprobación para que no me agreguen usuarios con DNI duplicado
@@ -321,17 +325,18 @@ namespace RedSocial
             return false;
         }
 
-        public void eliminarPost(int idPost)
+        public bool eliminarPost(int idPost)
 
         {
+            
             //Busco el post a eliminar
             int auxPost = posts.FindIndex(p => p.id == idPost);
 
             //busco al usuario en la lista de usuarios
             int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
-
-            //busco la reaccion correspondiente al post 
-            Reaccion reaccionEliminar;
+            if (!usuarioActual.misPost.Contains(posts[auxPost])) return false;
+                //busco la reaccion correspondiente al post 
+                Reaccion reaccionEliminar;
             if (posts[auxPost].reacciones != null)
             {
                 //elimino la reaccion correspondiente al post
@@ -355,6 +360,7 @@ namespace RedSocial
             usuarios[aux].misPost.Remove(posts[auxPost]); // borro el post de la lista de posts del usuario
             posts.RemoveAt(auxPost); //borro el post de la lista de posts
 
+            return true;
         }
 
         //===========================================MOSTRAR DATOS==================================================
@@ -414,6 +420,20 @@ namespace RedSocial
             }
             return bPost;
         }
+        public Post buscarPost(int idPost)
+        {
+            Post post = null;
+            foreach(Post postActual in posts)
+            {
+                if(idPost == postActual.id)
+                {
+                    post = postActual;
+                    break;
+                }
+            }
+            return post;
+        }
+
 
         //===========================================MANEJO DE COMENTARIOS==================================================
 

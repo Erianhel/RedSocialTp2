@@ -959,6 +959,7 @@ namespace RedSocial
             }
             if (resultadoQuery == 1)
             {
+                /*
                 try
                 {
                     //Ahora sí lo elimino en la lista
@@ -970,7 +971,8 @@ namespace RedSocial
                 catch (Exception)
                 {
                     return false;
-                }
+                }*/
+                return true;
             }
             else
             {
@@ -1004,6 +1006,7 @@ namespace RedSocial
                     return false;
                 }
             }
+            /*
             if (resultadoQuery == 1)
             {
                 try
@@ -1025,7 +1028,8 @@ namespace RedSocial
             {
                 //algo salió mal con la query porque no generó 1 registro
                 return false;
-            }
+            }*/
+            return true;
         }
         //============================================MANEJO DE TAG-POST=============================================
         public void inicializarTagsPost(List<Post>misPosts, List<Tag> misTags)
@@ -1119,11 +1123,7 @@ namespace RedSocial
             }
             if (resultadoQuery == 1)
             {
-
-                //Ahora sí lo agrego en la lista
-                //Tag tag = new Tag(idNuevoUsuario, palabra);
-
-                //misTags.Add(tag);
+                /*
                 Post postAux = null;
                 foreach (Post post in misPosts)
                 {
@@ -1143,7 +1143,7 @@ namespace RedSocial
                         break;
                     }
                 }
-
+                */
                 return true;
             }
             else
@@ -1183,6 +1183,7 @@ namespace RedSocial
             {
                 try
                 {
+                    /*
                     //Ahora sí lo elimino en la lista
                     Post postAux = null;
                     foreach (Post post in misPosts)
@@ -1203,7 +1204,7 @@ namespace RedSocial
                             break;
                         }
                     }
-
+                    */
                     return true;
                 }
                 catch (Exception)

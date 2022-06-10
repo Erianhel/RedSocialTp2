@@ -23,5 +23,10 @@ namespace RedSocial
             InitializeComponent();
             miRed = new RedSocial();
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

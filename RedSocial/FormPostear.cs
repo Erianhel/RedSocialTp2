@@ -68,8 +68,8 @@ namespace RedSocial
                 {
                     tags.Add(new Tag(dataGridView_Tags.Rows[i].Cells[0].Value.ToString()));
                 }
-                Post post = new Post(miRed.mostrarDatos(), textBox_publicacion.Text, DateTime.Now);
-                miRed.postear(post,tags);
+                //Post post = new Post(miRed.mostrarDatos(), textBox_publicacion.Text, DateTime.Now);
+                miRed.postear(textBox_publicacion.Text, DateTime.Now,miRed.mostrarDatos().id, tags);
                 this.eventoMain();
                 this.Close();
             }

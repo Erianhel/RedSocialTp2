@@ -49,10 +49,11 @@ namespace RedSocial
                 {
                     Console.WriteLine(ex.Message);
                 }
-
+                /*
                 //relaciono post con usuarios
                 foreach (Post p in misPosts)
                 {
+    
                     foreach (Usuario u in misUsuarios)
                     {
                         if (p.idUsuario == u.id)
@@ -62,6 +63,7 @@ namespace RedSocial
                         }
                     }
                 }
+                */
             }
             return misPosts;
         }

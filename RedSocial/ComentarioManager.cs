@@ -55,6 +55,7 @@ namespace RedSocial
             // relaciono las tablas con usuarios y posts
             foreach(Comentario c in misComentarios)
             {
+                /*
                 foreach (Usuario u in misUsuarios)
                 {
                     if (u.id == c.idUsuario)
@@ -72,6 +73,7 @@ namespace RedSocial
                         p.comentarios.Add(c);
                     }
                 }
+                */
             }
 
             return misComentarios;

@@ -15,8 +15,12 @@ namespace RedSocial
 		public Tag(int id, string palabra)
 		{
 		this.id = id;
-		this.palabra = palabra;
-		
+		this.palabra = palabra;		
 		}
+
+		public Tag(string palabra)
+        {
+			this.palabra= palabra;
+        }
 	}
 }

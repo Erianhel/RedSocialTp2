@@ -51,6 +51,7 @@ namespace RedSocial
                 }
 
                 //Relaciono reacciones con post y usuarios
+                /*
                 foreach (Reaccion aux in misReacciones)
                 {
                     foreach(Post p in misPosts)
@@ -71,6 +72,7 @@ namespace RedSocial
                         }
                     }
                 }
+                */
             }
             return misReacciones;
         }

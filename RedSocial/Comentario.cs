@@ -25,6 +25,14 @@ namespace RedSocial
 
 		}
 
+		public Comentario(DateTime fecha, string contenido, int idUsuario, int idPost)
+		{
 
+			this.contenido = contenido;
+			this.fecha = fecha;
+			this.idPost = idPost;
+			this.idUsuario = idUsuario;
+
+		}
 	}
 }
