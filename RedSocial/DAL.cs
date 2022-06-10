@@ -60,6 +60,7 @@ namespace RedSocial
                     while (reader.Read())
                     {
                         aux = new Usuario(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetBoolean(6), reader.GetBoolean(7), reader.GetInt32(8));
+
                         misUsuarios.Add(aux);
                     }
                     //En este punto ya recorrí todas las filas del resultado de la query

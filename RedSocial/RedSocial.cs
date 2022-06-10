@@ -261,8 +261,21 @@ namespace RedSocial
 
         }
 
-        public void quitarReaccion(int idPost, int idReaccion)
+        public void quitarReaccion(int idPost)
         {
+            int idReaccion = 0;
+            foreach (Post p in posts) {
+                if(p.usuario.id == usuarioActual.id)
+                {
+                    foreach(Reaccion r in p.reacciones)
+                    {
+                        if(r.usuario.id == usuarioActual.id)
+                        {
+                            idReaccion = r.id;
+                        }
+                    }
+                }
+            }
             if (DB.eliminarReaccion(idReaccion))
             {
                 //Borro reaccion de la lista
