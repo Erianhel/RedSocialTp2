@@ -106,7 +106,12 @@ namespace RedSocial
 
         private void buttonMeGusta_Click(object sender, EventArgs e)
         {
-            miRed.reaccionar(post.id,1, miRed.mostrarDatos().id);
+            if (!miRed.reaccionar(post.id, 1, miRed.mostrarDatos().id)) {
+                MessageBox.Show("Usted ya le dio me gusta",
+                        "Mensaje",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+            }
             label_meGusta.Text = "Me gusta: " + post.reacciones.Count;
             //buttonMeGusta.Click -= buttonMeGusta_Click;
             //buttonMeGusta.Click += buttonNoMeGusta;

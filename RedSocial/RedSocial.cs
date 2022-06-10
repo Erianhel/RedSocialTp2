@@ -32,7 +32,6 @@ namespace RedSocial
             comentarios = DB.inicializarComentarios(posts, usuarios);
             tags = DB.inicializarTags();
             DB.inicializarTagsPost(posts, tags);
-            DB.inicializarReacciones(posts, usuarios);
         }
 
         public bool iniciarSesion(string user, string pass)
@@ -212,32 +211,31 @@ namespace RedSocial
         //===========================================MANEJO DE REACCIONES==================================================
         public bool reaccionar(int idPost, int tipoReaccion, int idUsuario)
         {
-
+            Post PostAModif = null;
+            foreach (Post p in posts)
+            {
+                if (p.id == idPost)
+                {
+                    PostAModif = p;
+                }
+            }
+            if (PostAModif != null)
+            {
+                foreach (Reaccion r in PostAModif.reacciones)
+                {
+                    if (r.usuario.id == idUsuario)
+                    {
+                        return false;
+                    }
+                }
+            }
             int idNuevaReaccion = DB.Reaccionar(tipoReaccion, idPost, idUsuario);
             if (idNuevaReaccion != -1)
             {
-                Post PostAModif = null;
-                foreach (Post p in posts)
-                {
-                    if (p.id == idPost)
-                    {
-                        PostAModif = p;
-                    }
-                }
-                if (PostAModif != null)
-                {
-                    foreach (Reaccion r in PostAModif.reacciones)
-                    {
-                        if (r.usuario.id == idUsuario)
-                        {
-                            return false;
-                        }
-                    }
-                    Reaccion Nueva = new Reaccion(idNuevaReaccion, tipoReaccion, PostAModif.id, idUsuario);
-                    PostAModif.reacciones.Add(Nueva);
-                    usuarioActual.misReacciones.Add(Nueva);
-                    return true;
-                }
+                Reaccion Nueva = new Reaccion(idNuevaReaccion, tipoReaccion, PostAModif.id, idUsuario);
+                PostAModif.reacciones.Add(Nueva);
+                usuarioActual.misReacciones.Add(Nueva);
+                return true;
             }
             return false;
         }
@@ -266,15 +264,21 @@ namespace RedSocial
         {
             int idReaccion = 0;
             foreach (Post p in posts) {
+                bool salir = false;
                 if(p.usuario.id == usuarioActual.id)
                 {
                     foreach(Reaccion r in p.reacciones)
                     {
+
                         if(r.usuario.id == usuarioActual.id)
                         {
                             idReaccion = r.id;
+                            salir = true;
+                            break;
                         }
                     }
+                    if (salir) break;
+                    return;
                 }
             }
             if (DB.eliminarReaccion(idReaccion))
