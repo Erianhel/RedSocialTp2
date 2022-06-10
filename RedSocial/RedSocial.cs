@@ -350,7 +350,7 @@ namespace RedSocial
             if (!usuarioActual.misPost.Contains(posts[auxPost])) return false;
                 //busco la reaccion correspondiente al post 
                 Reaccion reaccionEliminar;
-            if (posts[auxPost].reacciones != null)
+            if (posts[auxPost].reacciones != null && posts[auxPost].reacciones.Count >0)
             {
                 //elimino la reaccion correspondiente al post
                 reaccionEliminar = usuarios[aux].misReacciones.Find(x => x.post.Equals(posts[auxPost]));
