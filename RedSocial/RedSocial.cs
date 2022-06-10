@@ -72,7 +72,7 @@ namespace RedSocial
         {
             return usuarios;
         }
-        public bool registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password)
+        public bool registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password,bool admin)
         {
             //comprobación para que no me agreguen usuarios con DNI duplicado
             bool esValido = true;
@@ -86,11 +86,11 @@ namespace RedSocial
             if (esValido)
             {
                 int idNuevoUsuario;
-                idNuevoUsuario = DB.registrarUsuario(Dni, Nombre, Apellido, Mail, Password, false, 0, false);
+                idNuevoUsuario = DB.registrarUsuario(Dni, Nombre, Apellido, Mail, Password, admin, 0, false);
                 if (idNuevoUsuario != -1)
                 {
                     //Ahora sí lo agrego en la lista
-                    Usuario nuevo = new Usuario(idNuevoUsuario, Dni, Nombre, Apellido, Mail, Password, false, 0, false);
+                    Usuario nuevo = new Usuario(idNuevoUsuario, Dni, Nombre, Apellido, Mail, Password, admin, 0, false);
                     usuarios.Add(nuevo);
                     return true;
                 }

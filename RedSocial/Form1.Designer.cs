@@ -44,6 +44,7 @@
             this.textBox_MailReg = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.textBox_PassReg = new System.Windows.Forms.TextBox();
+            this.checkBoxAdmin = new System.Windows.Forms.CheckBox();
             this.ResultadoRegistro = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -94,7 +95,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(601, 410);
+            this.button2.Location = new System.Drawing.Point(594, 435);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(114, 31);
@@ -183,11 +184,22 @@
             this.textBox_PassReg.Size = new System.Drawing.Size(125, 27);
             this.textBox_PassReg.TabIndex = 16;
             // 
+            // checkBoxAdmin
+            // 
+            this.checkBoxAdmin.AutoSize = true;
+            this.checkBoxAdmin.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.checkBoxAdmin.Location = new System.Drawing.Point(610, 387);
+            this.checkBoxAdmin.Name = "checkBoxAdmin";
+            this.checkBoxAdmin.Size = new System.Drawing.Size(82, 27);
+            this.checkBoxAdmin.TabIndex = 18;
+            this.checkBoxAdmin.Text = "Admin";
+            this.checkBoxAdmin.UseVisualStyleBackColor = true;
+            // 
             // ResultadoRegistro
             // 
-            this.ResultadoRegistro.Location = new System.Drawing.Point(539, 480);
+            this.ResultadoRegistro.Location = new System.Drawing.Point(514, 483);
             this.ResultadoRegistro.Name = "ResultadoRegistro";
-            this.ResultadoRegistro.Size = new System.Drawing.Size(950, 650);
+            this.ResultadoRegistro.Size = new System.Drawing.Size(301, 64);
             this.ResultadoRegistro.TabIndex = 17;
             // 
             // Form1
@@ -195,6 +207,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 650);
+            this.Controls.Add(this.checkBoxAdmin);
             this.Controls.Add(this.ResultadoRegistro);
             this.Controls.Add(this.textBox_PassReg);
             this.Controls.Add(this.label8);
@@ -241,6 +254,7 @@
         private TextBox textBox_MailReg;
         private Label label8;
         private TextBox textBox_PassReg;
+        private CheckBox checkBoxAdmin;
         private Label ResultadoRegistro;
     }
 }

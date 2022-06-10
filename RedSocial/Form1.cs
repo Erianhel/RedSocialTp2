@@ -41,11 +41,14 @@ namespace RedSocial
             }
             else
             {
+                bool admin = false;
+                if (checkBoxAdmin.Checked) admin = true; 
                 miRed.registrarUsuario(textBox_DNIReg.Text,
                     textBox_NombreReg.Text,
                     textBox_apellidoRegistro.Text,
                     textBox_MailReg.Text,
-                    textBox_PassReg.Text);
+                    textBox_PassReg.Text,
+                    admin);
                 ResultadoRegistro.Text = "USUARIO AGREGADO";
             }
             //label1.Text = Interaction.InputBox("agregar cambio:");
