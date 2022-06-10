@@ -519,7 +519,7 @@ namespace RedSocial
             string connectionString = connectionDB;
 
             //Defino el string con la consulta que quiero realizar
-            string queryString = "SELECT * from dbo.REACCION";
+            string queryString = "SELECT * from [dbo].[REACCION]";
 
             // Creo una conexión SQL con un Using, de modo que al finalizar, la conexión se cierra y se liberan recursos
             using (SqlConnection connection =

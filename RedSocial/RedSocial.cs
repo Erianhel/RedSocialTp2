@@ -32,6 +32,7 @@ namespace RedSocial
             comentarios = DB.inicializarComentarios(posts, usuarios);
             tags = DB.inicializarTags();
             DB.inicializarTagsPost(posts, tags);
+            DB.inicializarReacciones(posts, usuarios);
         }
 
         public bool iniciarSesion(string user, string pass)
@@ -306,6 +307,16 @@ namespace RedSocial
                                             contenido,
                                             idUsuario);
                 nuevo.usuario = usuarioActual;
+                foreach (Tag t in tag)
+                {
+                    t.posts.Add(nuevo);
+                    nuevo.tags.Add(t);
+
+                    if (!tags.Contains(t))
+                    {
+                        tags.Add(t);
+                    }
+                }
                 foreach (Tag t in tag)
                 {
                     t.posts.Add(nuevo);
