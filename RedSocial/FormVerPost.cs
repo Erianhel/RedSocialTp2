@@ -115,7 +115,7 @@ namespace RedSocial
         private void buttonNoMeGusta(object sender, EventArgs e)
         {   
             //FALTA AGREGAR O PENSAR
-            //miRed.quitarReaccion(post.id);
+            miRed.quitarReaccion(post.id);
             label_meGusta.Text = "Me gusta: " + post.reacciones.Count;
             //buttonMeGusta.Click -= buttonNoMeGusta;
             //buttonMeGusta.Click += buttonMeGusta_Click;
