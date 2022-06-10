@@ -61,7 +61,7 @@ namespace RedSocial.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Data Source=MSI\SQLEXPRESS;Initial Catalog=RedSocial;Integrated Security=True.
+        ///   Looks up a localized string similar to Data Source=DESKTOP-HLG8AQ4\SQLEXPRESS01;Initial Catalog=RedSocial;Integrated Security=True.
         /// </summary>
         internal static string ConnectionString {
             get {

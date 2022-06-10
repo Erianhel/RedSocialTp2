@@ -420,9 +420,9 @@ namespace RedSocial
                 command.Parameters.Add(new SqlParameter("@contenido", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@id_usuario", SqlDbType.Int));
 
-                command.Parameters["@nombre"].Value = contenido;
-                command.Parameters["@apellido"].Value = fecha;
-                command.Parameters["@mail"].Value = idUsuario;
+                command.Parameters["@contenido"].Value = contenido;
+                command.Parameters["@fecha"].Value = fecha;
+                command.Parameters["@id_usuario"].Value = idUsuario;
 
                 Console.WriteLine(queryString + "hola");
 
@@ -487,8 +487,6 @@ namespace RedSocial
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
-
-
 
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
@@ -761,10 +759,10 @@ namespace RedSocial
                 new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.Add(new SqlParameter("@fecha", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@fecha", SqlDbType.Date));
                 command.Parameters.Add(new SqlParameter("@contenido", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@idPost", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@idPost", SqlDbType.Int));
 
                 command.Parameters["@fecha"].Value = fecha;
                 command.Parameters["@contenido"].Value = contenido;

@@ -56,6 +56,7 @@ namespace RedSocial
         {
             hijoAdmin = new FormAdmin(miRed);
             hijoAdmin.MdiParent = this;
+            hijoAdmin.eventoLogIn += TransfDelegadoLogIn;
 
             hijoAdmin.Show();
         }

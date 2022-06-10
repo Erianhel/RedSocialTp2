@@ -32,9 +32,6 @@
             this.textBox_Comentar = new System.Windows.Forms.TextBox();
             this.button_Comentar = new System.Windows.Forms.Button();
             this.dataGridView_Comentarios = new System.Windows.Forms.DataGridView();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Comentarios = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Modificar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dataGridView_Tags = new System.Windows.Forms.DataGridView();
             this.Tag = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label_listaTag = new System.Windows.Forms.Label();
@@ -44,6 +41,9 @@
             this.buttonMeGusta = new System.Windows.Forms.Button();
             this.label_meGusta = new System.Windows.Forms.Label();
             this.button_QuitarMegusta = new System.Windows.Forms.Button();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Comentarios = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Modificar = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Comentarios)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Tags)).BeginInit();
             this.SuspendLayout();
@@ -91,28 +91,6 @@
             this.dataGridView_Comentarios.TabIndex = 3;
             this.dataGridView_Comentarios.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.selectorComentario);
             this.dataGridView_Comentarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Comentarios_CellContentClick);
-            // 
-            // ID
-            // 
-            this.ID.HeaderText = "ID";
-            this.ID.MinimumWidth = 6;
-            this.ID.Name = "ID";
-            this.ID.Visible = false;
-            this.ID.Width = 125;
-            // 
-            // Comentarios
-            // 
-            this.Comentarios.HeaderText = "Comentarios";
-            this.Comentarios.MinimumWidth = 6;
-            this.Comentarios.Name = "Comentarios";
-            this.Comentarios.Width = 395;
-            // 
-            // Modificar
-            // 
-            this.Modificar.HeaderText = "Modificar";
-            this.Modificar.MinimumWidth = 6;
-            this.Modificar.Name = "Modificar";
-            this.Modificar.Width = 77;
             // 
             // dataGridView_Tags
             // 
@@ -202,6 +180,27 @@
             this.button_QuitarMegusta.UseVisualStyleBackColor = true;
             this.button_QuitarMegusta.Click += new System.EventHandler(this.buttonNoMeGusta);
             // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.MinimumWidth = 6;
+            this.ID.Name = "ID";
+            this.ID.Width = 40;
+            // 
+            // Comentarios
+            // 
+            this.Comentarios.HeaderText = "Comentarios";
+            this.Comentarios.MinimumWidth = 6;
+            this.Comentarios.Name = "Comentarios";
+            this.Comentarios.Width = 365;
+            // 
+            // Modificar
+            // 
+            this.Modificar.HeaderText = "Modificar";
+            this.Modificar.MinimumWidth = 6;
+            this.Modificar.Name = "Modificar";
+            this.Modificar.Width = 77;
+            // 
             // FormVerPost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -240,13 +239,13 @@
         private Label label_listaTag;
         private Button button_volverMain;
         private DataGridViewTextBoxColumn Tag;
-        private DataGridViewTextBoxColumn ID;
-        private DataGridViewTextBoxColumn Comentarios;
-        private DataGridViewButtonColumn Modificar;
         private Button button_modificar;
         private Button buttonEliminar;
         private Button buttonMeGusta;
         private Label label_meGusta;
         private Button button_QuitarMegusta;
+        private DataGridViewTextBoxColumn ID;
+        private DataGridViewTextBoxColumn Comentarios;
+        private DataGridViewButtonColumn Modificar;
     }
 }

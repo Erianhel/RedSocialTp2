@@ -13,20 +13,36 @@ namespace RedSocial
     public partial class FormAdmin : Form
     {
         private RedSocial miRed;
+
+        public delegate void TransfDelegadoLogIn();
+        public TransfDelegadoLogIn eventoLogIn;
+
         public FormAdmin(RedSocial redSocial)
         {
             InitializeComponent();
             miRed = redSocial;
         }
-        public FormAdmin()
+
+        private void Form_Load(object sender, EventArgs e)
         {
-            InitializeComponent();
-            miRed = new RedSocial();
+            foreach (Usuario usuario in miRed.getUsuarios())
+            {
+                if (usuario == miRed.usuarioActual) continue;
+                dataGridViewUsuarios.Rows.Add(usuario.id, usuario.nombre, usuario.apellido, "Modificar");
+            }
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void buttonOut_Click(object sender, EventArgs e)
+        {
+            miRed.cerrarSesion();
+            this.eventoLogIn();
+            this.Close();
         }
     }
 }
