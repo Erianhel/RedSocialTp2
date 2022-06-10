@@ -484,7 +484,7 @@ namespace RedSocial
             //primero me aseguro que lo pueda agregar a la base
             int resultadoQuery;
             string connectionString = connectionDB;
-            string queryString = "UPDATE [dbo].[POST] SET CONTENIDO=@contenido, WHERE ID=@id;";
+            string queryString = "UPDATE [dbo].[POST] SET CONTENIDO=@contenido WHERE ID=@id;";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
@@ -829,7 +829,7 @@ namespace RedSocial
             //primero me aseguro que lo pueda agregar a la base
             int resultadoQuery;
             string connectionString = connectionDB;
-            string queryString = "UPDATE [dbo].[Usuario] SET CONTENIDO=@contenido WHERE ID=@id;";
+            string queryString = "UPDATE [dbo].[COMENTARIO] SET CONTENIDO=@contenido WHERE ID=@id;";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
