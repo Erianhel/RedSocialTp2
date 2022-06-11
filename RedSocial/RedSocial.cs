@@ -40,9 +40,11 @@ namespace RedSocial
 
             foreach (Usuario usuario in usuarios)
             {
+                
+
                 if (usuario.intentosFallidos == 3)
                 {
-                    usuarios[usuario.id].bloqueado = true;
+                    usuario.bloqueado = true;
                     DB.modificarUsuario(usuario.id, usuario.dni, usuario.nombre, usuario.apellido, usuario.mail, usuario.pass, usuario.esAdmin, true, 3);
                 }
 
@@ -54,7 +56,8 @@ namespace RedSocial
                 }
                 else if (usuario.nombre.Equals(user) && !usuario.pass.Equals(pass))
                 {
-                    usuarios[usuario.id].intentosFallidos++;
+                    usuario.intentosFallidos++;
+                    DB.modificarUsuario(usuario.id, usuario.dni, usuario.nombre, usuario.apellido, usuario.mail, usuario.pass, usuario.esAdmin, false, usuario.intentosFallidos);
                 }
 
             }
@@ -324,6 +327,9 @@ namespace RedSocial
                 nuevo.usuario = usuarioActual;
                 foreach (Tag t in tag)
                 {
+                    t.id = DB.altaTag(t.palabra,idNuevoPost);
+                    DB.altaRelacionarTagPost(idNuevoPost,t.id);
+
                     t.posts.Add(nuevo);
                     nuevo.tags.Add(t);
 
@@ -332,16 +338,7 @@ namespace RedSocial
                         tags.Add(t);
                     }
                 }
-                foreach (Tag t in tag)
-                {
-                    t.posts.Add(nuevo);
-                    nuevo.tags.Add(t);
-
-                    if (!tags.Contains(t))
-                    {
-                        tags.Add(t);
-                    }
-                }
+             
                 posts.Add(nuevo);
                 usuarioActual.misPost.Add(nuevo);
 
@@ -394,7 +391,16 @@ namespace RedSocial
                 }
 
             }
-
+            if (posts[auxPost].tags != null && posts[auxPost].tags.Count > 0)
+            {
+                foreach(Tag tag in posts[auxPost].tags)
+                {
+                    DB.bajaTag(tag.id);
+                    DB.bajaRelacionTag_post(idPost, tag.id);
+                }
+                
+            }
+                
             DB.eliminarPost(idPost);
             usuarios[aux].misPost.Remove(posts[auxPost]); // borro el post de la lista de posts del usuario
             posts.RemoveAt(auxPost); //borro el post de la lista de posts
@@ -435,7 +441,7 @@ namespace RedSocial
             List<Post> bPost = new List<Post>();
             foreach (Post post in posts)
             {
-                if (post.contenido.Contains(contenido))
+                if (post.contenido.Equals(contenido))
                 {
                     bPost.Add(post);
                 }
