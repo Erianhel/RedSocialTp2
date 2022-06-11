@@ -18,6 +18,7 @@ namespace RedSocial
 
         public Reaccion(int id, int tipo, int idPost, int idUsuario)
         {
+            this.id = id;
             this.tipo = tipo;
             this.idPost = idPost;
             this.idUsuario = idUsuario;

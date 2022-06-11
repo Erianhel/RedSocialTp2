@@ -265,7 +265,7 @@ namespace RedSocial
             int idReaccion = 0;
             foreach (Post p in posts) {
                 bool salir = false;
-                if(p.usuario.id == usuarioActual.id)
+                if(p.id == idPost)
                 {
                     foreach(Reaccion r in p.reacciones)
                     {
@@ -291,6 +291,7 @@ namespace RedSocial
                         //busco el indice de la reaccion en la lista de posts
                         int aux = p.reacciones.FindIndex((reaccion) => reaccion.id == idReaccion);
                         p.reacciones.RemoveAt(aux);
+                        usuarioActual.misReacciones.RemoveAt(aux);
                     }
                 }
             }
