@@ -51,5 +51,12 @@ namespace RedSocial
             this.eventoAdmin();
             this.Close();
         }
+
+        private void buttonEliminar_Click(object sender, EventArgs e)
+        {
+            miRedSocial.eliminarUsuario(usuario.id);
+            this.eventoAdmin();
+            this.Close();
+        }
     }
 }

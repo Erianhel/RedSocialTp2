@@ -21,6 +21,7 @@ namespace RedSocial
         FormVerPost hijoVerPost;
         FormBuscarPost hijoBuscarPost;
         FormUsuario hijoUsuario;
+        FormVerPostAdmin hijoVerPostAdmin;
 
         bool logued;
         public Form0()
@@ -59,6 +60,7 @@ namespace RedSocial
             hijoAdmin.MdiParent = this;
             hijoAdmin.eventoLogIn += TransfDelegadoLogIn;
             hijoAdmin.eventoUsuario += TransfDelegadoUsuario;
+            hijoAdmin.eventoPost += TransfDelegadoVerPostAdmin;
 
             hijoAdmin.Show();
         }
@@ -101,6 +103,13 @@ namespace RedSocial
             hijoUsuario.MdiParent = this;
             hijoUsuario.eventoAdmin += TransfDelegadoAdmin;
             hijoUsuario.Show();
+        }
+        private void TransfDelegadoVerPostAdmin(int idPost)
+        {
+            hijoVerPostAdmin = new FormVerPostAdmin(miRed, idPost);
+            hijoVerPostAdmin.MdiParent = this;
+            hijoVerPostAdmin.eventoAdmin += TransfDelegadoAdmin;
+            hijoVerPostAdmin.Show();
         }
     }
 }

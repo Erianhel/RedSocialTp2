@@ -14,12 +14,17 @@ namespace RedSocial
     {
         private RedSocial miRed;
         private int seleccionarUsuario;
+        private int seleccionarPost;
+        private int seleccionarTag;
 
         public delegate void TransfDelegadoLogIn();
         public TransfDelegadoLogIn eventoLogIn;
 
         public delegate void TransfDelegadoUsuario(int idUsuario);
         public TransfDelegadoUsuario eventoUsuario;
+
+        public delegate void TransfDelegadoPost(int idPost);
+        public TransfDelegadoPost eventoPost;
 
         public FormAdmin(RedSocial redSocial)
         {
@@ -34,7 +39,10 @@ namespace RedSocial
                 if (usuario == miRed.usuarioActual) continue;
                 dataGridViewUsuarios.Rows.Add(usuario.id, usuario.nombre, usuario.apellido, "Modificar");
             }
-
+            foreach(Post post in miRed.mostrarPost())
+            {
+                dataGridViewPost.Rows.Add(post.id, post.contenido, "Modificar");
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -57,6 +65,24 @@ namespace RedSocial
         private void seleccionadorUsuario(object sender, DataGridViewCellEventArgs e)
         {
             seleccionarUsuario = e.RowIndex;
+        }
+
+        private void seleccionadorPost(object sender, DataGridViewCellEventArgs e)
+        {
+            seleccionarPost = e.RowIndex;
+        }
+        private void seleccionadorTag(object sender, DataGridViewCellEventArgs e)
+        {
+            seleccionarTag = e.RowIndex;
+        }
+        private void dataGridViewPost_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (seleccionarPost != null && seleccionarPost != -1)
+            {
+                //int aux = int.Parse(dataGridViewUsuarios.Rows[seleccionarUsuario].Cells[0].Value.ToString());
+                this.eventoPost(int.Parse(dataGridViewPost.Rows[seleccionarUsuario].Cells[0].Value.ToString()));
+                this.Close();
+            }
         }
     }
 }
