@@ -864,7 +864,7 @@ namespace RedSocial
         {
             List<Tag> misTags = new List<Tag>();
 
-            string queryString = "SELECT * from dbo.Tag";
+            string queryString = "SELECT * from dbo.TAG";
 
             using (SqlConnection connection =
                 new SqlConnection(connectionDB))
@@ -899,7 +899,7 @@ namespace RedSocial
             int resultadoQuery;
             int idNuevoTag = -1;
             string connectionString = connectionDB;
-            string queryString = "INSERT INTO [dbo].[Tag] ([Palabra]) VALUES (@palabra);";
+            string queryString = "INSERT INTO [dbo].[TAG] ([Palabra]) VALUES (@palabra);";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
@@ -917,7 +917,7 @@ namespace RedSocial
 
                     //*******************************************
                     //Ahora hago esta query para obtener el ID
-                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Tag]";
+                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[TAG]";
                     command = new SqlCommand(ConsultaID, connection);
                     SqlDataReader reader = command.ExecuteReader();
                     reader.Read();
@@ -938,7 +938,7 @@ namespace RedSocial
             //primero me aseguro que lo pueda agregar a la base
             int resultadoQuery;
             string connectionString = connectionDB;
-            string queryString = "DELETE FROM [dbo].[Tag] WHERE ID=@id";
+            string queryString = "DELETE FROM [dbo].[TAG] WHERE ID=@id";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
@@ -986,7 +986,7 @@ namespace RedSocial
             //primero me aseguro que lo pueda agregar a la base
             int resultadoQuery;
             string connectionString = connectionDB;
-            string queryString = "UPDATE [dbo].[Tag] SET palabra=@palabra WHERE ID=@id;";
+            string queryString = "UPDATE [dbo].[TAG] SET palabra=@palabra WHERE ID=@id;";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
@@ -1035,7 +1035,7 @@ namespace RedSocial
         public void inicializarTagsPost(List<Post>misPosts, List<Tag> misTags)
         {
 
-            string queryString = "SELECT * from dbo.Tag";
+            string queryString = "SELECT * from dbo.TAG_POST";
 
             using (SqlConnection connection =
                 new SqlConnection(connectionDB))
@@ -1088,7 +1088,7 @@ namespace RedSocial
             int resultadoQuery;
             int idNuevoTag_post = -1;
             string connectionString = connectionDB;
-            string queryString = "INSERT INTO [dbo].[Tag_post] ([ID_post],[ID_tag]) VALUES (@id_post,@id_tag);";
+            string queryString = "INSERT INTO [dbo].[TAG_POST] ([ID_post],[ID_tag]) VALUES (@id_post,@id_tag);";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
@@ -1108,7 +1108,7 @@ namespace RedSocial
 
                     //*******************************************
                     //Ahora hago esta query para obtener el ID
-                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Tag_post]";
+                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[TAG_POST]";
                     command = new SqlCommand(ConsultaID, connection);
                     SqlDataReader reader = command.ExecuteReader();
                     reader.Read();
@@ -1158,7 +1158,7 @@ namespace RedSocial
             //primero me aseguro que lo pueda agregar a la base
             int resultadoQuery;
             string connectionString = connectionDB;
-            string queryString = "DELETE FROM [dbo].[Tag_post] WHERE ID_post=@idTag AND ID_tag=@idPost";
+            string queryString = "DELETE FROM [dbo].[TAG_POST] WHERE ID_post=@idTag AND ID_tag=@idPost";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
