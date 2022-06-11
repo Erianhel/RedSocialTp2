@@ -325,16 +325,7 @@ namespace RedSocial
                         tags.Add(t);
                     }
                 }
-                foreach (Tag t in tag)
-                {
-                    t.posts.Add(nuevo);
-                    nuevo.tags.Add(t);
-
-                    if (!tags.Contains(t))
-                    {
-                        tags.Add(t);
-                    }
-                }
+             
                 posts.Add(nuevo);
                 usuarioActual.misPost.Add(nuevo);
 
@@ -387,7 +378,16 @@ namespace RedSocial
                 }
 
             }
-
+            if (posts[auxPost].tags != null && posts[auxPost].tags.Count > 0)
+            {
+                foreach(Tag tag in posts[auxPost].tags)
+                {
+                    DB.bajaTag(tag.id);
+                    DB.bajaRelacionTag_post(idPost, tag.id);
+                }
+                
+            }
+                
             DB.eliminarPost(idPost);
             usuarios[aux].misPost.Remove(posts[auxPost]); // borro el post de la lista de posts del usuario
             posts.RemoveAt(auxPost); //borro el post de la lista de posts
