@@ -69,17 +69,22 @@ namespace RedSocial
             else
             {
                 string nuevoComentario = Interaction.InputBox("Ingrese el replazo de comentario:");
-                miRed.modificarComentario(int.Parse(dataGridView_Comentarios.Rows[comentarioSeleccionado].Cells[0].Value.ToString()),nuevoComentario);
-                dataGridView_Comentarios.Rows[comentarioSeleccionado].Cells[1].Value = nuevoComentario;
+                if(nuevoComentario == null)
+                {
+                    miRed.modificarComentario(int.Parse(dataGridView_Comentarios.Rows[comentarioSeleccionado].Cells[0].Value.ToString()), nuevoComentario);
+                    dataGridView_Comentarios.Rows[comentarioSeleccionado].Cells[1].Value = nuevoComentario;
+                }
             }
         }
 
         private void button_modificar_Click(object sender, EventArgs e)
         {
             string nuevoContenido = Interaction.InputBox("Ingrese el replazo del contenido:");
-            miRed.modificarPost(post.id,nuevoContenido);
-            label_PostComentario.Text = nuevoContenido;
-            
+            if(nuevoContenido == null)
+            {
+                miRed.modificarPost(post.id, nuevoContenido);
+                label_PostComentario.Text = nuevoContenido;
+            }         
         }
 
         private void buttonEliminar_Click(object sender, EventArgs e)
