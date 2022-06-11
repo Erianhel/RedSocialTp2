@@ -369,7 +369,7 @@ namespace RedSocial
             int auxPost = posts.FindIndex(p => p.id == idPost);
 
             //busco al usuario en la lista de usuarios
-            int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
+            int aux = usuarios.FindIndex(usuario => usuario.id == posts[auxPost].idUsuario);
             if (!usuarioActual.misPost.Contains(posts[auxPost]) && !usuarioActual.esAdmin) return false;
                 //busco la reaccion correspondiente al post 
                 Reaccion reaccionEliminar;
