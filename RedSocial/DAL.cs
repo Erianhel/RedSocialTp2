@@ -892,7 +892,7 @@ namespace RedSocial
             return misTags;
         }
 
-        public bool altaTag(string palabra, int idPost)
+        public int altaTag(string palabra, int idPost)
         {
 
             //primero me aseguro que lo pueda agregar a la base
@@ -927,10 +927,10 @@ namespace RedSocial
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return false;
+                    return -1;
                 }
             }
-            return true;
+            return idNuevoTag;
         }
 
         public bool bajaTag(int Id)
@@ -1081,7 +1081,7 @@ namespace RedSocial
 
         }
 
-        public bool altaRelacionarTagPost(string id_post, string id_tag)
+        public bool altaRelacionarTagPost(int id_post, int id_tag)
         {
 
             //primero me aseguro que lo pueda agregar a la base
