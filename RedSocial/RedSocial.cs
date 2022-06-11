@@ -144,6 +144,11 @@ namespace RedSocial
 
         public bool modificarUsuario(int Id, string Dni, string Nombre, string Apellido, string Mail, string Password, bool EsADM, bool Bloqueado, int IntentosFallidos)
         {
+            if (Bloqueado == false)
+            {
+                IntentosFallidos = 0;
+            }
+
             //primero me aseguro que lo pueda agregar a la base
             if (DB.modificarUsuario(Id, Dni, Nombre, Apellido, Mail, Password, EsADM, Bloqueado,IntentosFallidos) == 1)
             {
@@ -151,6 +156,8 @@ namespace RedSocial
                 {
                     //Ahora sí lo MODIFICO en la lista
                     for (int i = 0; i < usuarios.Count; i++)
+                    {
+                        
                         if (usuarios[i].id == Id)
                         {
                             usuarios[i].nombre = Nombre;
@@ -162,6 +169,7 @@ namespace RedSocial
                             usuarios[i].bloqueado = Bloqueado;
                             usuarios[i].intentosFallidos = IntentosFallidos;
                         }
+                    }
                     return true;
                 }
                 catch (Exception)
