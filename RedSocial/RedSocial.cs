@@ -40,9 +40,11 @@ namespace RedSocial
 
             foreach (Usuario usuario in usuarios)
             {
+                
+
                 if (usuario.intentosFallidos == 3)
                 {
-                    usuarios[usuario.id].bloqueado = true;
+                    usuario.bloqueado = true;
                     DB.modificarUsuario(usuario.id, usuario.dni, usuario.nombre, usuario.apellido, usuario.mail, usuario.pass, usuario.esAdmin, true, 3);
                 }
 
@@ -54,7 +56,8 @@ namespace RedSocial
                 }
                 else if (usuario.nombre.Equals(user) && !usuario.pass.Equals(pass))
                 {
-                    usuarios[usuario.id].intentosFallidos++;
+                    usuario.intentosFallidos++;
+                    DB.modificarUsuario(usuario.id, usuario.dni, usuario.nombre, usuario.apellido, usuario.mail, usuario.pass, usuario.esAdmin, false, usuario.intentosFallidos);
                 }
 
             }
