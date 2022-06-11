@@ -72,6 +72,16 @@ namespace RedSocial
         {
             return usuarios;
         }
+
+        public Usuario getUsuario(int idUsur)
+        {
+            foreach(Usuario usuario in usuarios)
+            {
+                if(usuario.id == idUsur) return usuario;
+            }
+            return null;
+        }
+
         public bool registrarUsuario(string Dni, string Nombre, string Apellido, string Mail, string Password, bool admin)
         {
             //comprobación para que no me agreguen usuarios con DNI duplicado

@@ -31,13 +31,13 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dataGridViewUsuarios = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Accion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.labelUsuario = new System.Windows.Forms.Label();
             this.buttonOut = new System.Windows.Forms.Button();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Accion = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUsuarios)).BeginInit();
@@ -78,38 +78,8 @@
             this.dataGridViewUsuarios.RowTemplate.Height = 29;
             this.dataGridViewUsuarios.Size = new System.Drawing.Size(912, 501);
             this.dataGridViewUsuarios.TabIndex = 0;
+            this.dataGridViewUsuarios.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.seleccionadorUsuario);
             this.dataGridViewUsuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // Id
-            // 
-            this.Id.HeaderText = "id";
-            this.Id.MinimumWidth = 6;
-            this.Id.Name = "Id";
-            this.Id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Id.Visible = false;
-            this.Id.Width = 50;
-            // 
-            // Nombre
-            // 
-            this.Nombre.HeaderText = "Nombre";
-            this.Nombre.MinimumWidth = 6;
-            this.Nombre.Name = "Nombre";
-            this.Nombre.Width = 225;
-            // 
-            // Apellido
-            // 
-            this.Apellido.HeaderText = "Apellido";
-            this.Apellido.MinimumWidth = 6;
-            this.Apellido.Name = "Apellido";
-            this.Apellido.Width = 225;
-            // 
-            // Accion
-            // 
-            this.Accion.HeaderText = "Accion";
-            this.Accion.MinimumWidth = 6;
-            this.Accion.Name = "Accion";
-            this.Accion.Width = 125;
             // 
             // tabPage2
             // 
@@ -141,6 +111,37 @@
             this.buttonOut.UseVisualStyleBackColor = true;
             this.buttonOut.Click += new System.EventHandler(this.buttonOut_Click);
             // 
+            // Id
+            // 
+            this.Id.HeaderText = "id";
+            this.Id.MinimumWidth = 6;
+            this.Id.Name = "Id";
+            this.Id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Id.Width = 50;
+            // 
+            // Nombre
+            // 
+            this.Nombre.HeaderText = "Nombre";
+            this.Nombre.MinimumWidth = 6;
+            this.Nombre.Name = "Nombre";
+            this.Nombre.Width = 225;
+            // 
+            // Apellido
+            // 
+            this.Apellido.HeaderText = "Apellido";
+            this.Apellido.MinimumWidth = 6;
+            this.Apellido.Name = "Apellido";
+            this.Apellido.Width = 225;
+            // 
+            // Accion
+            // 
+            this.Accion.HeaderText = "Accion";
+            this.Accion.MinimumWidth = 6;
+            this.Accion.Name = "Accion";
+            this.Accion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Accion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Accion.Width = 125;
+            // 
             // FormAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -171,9 +172,9 @@
         private Label labelUsuario;
         private DataGridView dataGridViewUsuarios;
         private Button buttonOut;
-        private DataGridViewButtonColumn Id;
+        private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn Apellido;
-        private DataGridViewTextBoxColumn Accion;
+        private DataGridViewButtonColumn Accion;
     }
 }
