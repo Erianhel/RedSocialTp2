@@ -428,7 +428,7 @@ namespace RedSocial
             List<Post> bPost = new List<Post>();
             foreach (Post post in posts)
             {
-                if (post.contenido.Contains(contenido))
+                if (post.contenido.Equals(contenido))
                 {
                     bPost.Add(post);
                 }
