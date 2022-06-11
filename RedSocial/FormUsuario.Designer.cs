@@ -45,73 +45,78 @@
             // 
             // textBox_MailReg
             // 
-            this.textBox_MailReg.Location = new System.Drawing.Point(246, 227);
+            this.textBox_MailReg.Location = new System.Drawing.Point(215, 170);
+            this.textBox_MailReg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox_MailReg.Name = "textBox_MailReg";
-            this.textBox_MailReg.Size = new System.Drawing.Size(125, 27);
+            this.textBox_MailReg.Size = new System.Drawing.Size(110, 23);
             this.textBox_MailReg.TabIndex = 24;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(148, 230);
+            this.label7.Location = new System.Drawing.Point(130, 172);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(38, 20);
+            this.label7.Size = new System.Drawing.Size(30, 15);
             this.label7.TabIndex = 23;
             this.label7.Text = "Mail";
             // 
             // textBox_DNIReg
             // 
-            this.textBox_DNIReg.Location = new System.Drawing.Point(246, 194);
+            this.textBox_DNIReg.Location = new System.Drawing.Point(215, 146);
+            this.textBox_DNIReg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox_DNIReg.Name = "textBox_DNIReg";
-            this.textBox_DNIReg.Size = new System.Drawing.Size(125, 27);
+            this.textBox_DNIReg.Size = new System.Drawing.Size(110, 23);
             this.textBox_DNIReg.TabIndex = 22;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(148, 194);
+            this.label6.Location = new System.Drawing.Point(130, 146);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 20);
+            this.label6.Size = new System.Drawing.Size(27, 15);
             this.label6.TabIndex = 21;
             this.label6.Text = "DNI";
             // 
             // textBox_apellidoRegistro
             // 
-            this.textBox_apellidoRegistro.Location = new System.Drawing.Point(246, 161);
+            this.textBox_apellidoRegistro.Location = new System.Drawing.Point(215, 121);
+            this.textBox_apellidoRegistro.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox_apellidoRegistro.Name = "textBox_apellidoRegistro";
-            this.textBox_apellidoRegistro.Size = new System.Drawing.Size(125, 27);
+            this.textBox_apellidoRegistro.Size = new System.Drawing.Size(110, 23);
             this.textBox_apellidoRegistro.TabIndex = 20;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(148, 161);
+            this.label5.Location = new System.Drawing.Point(130, 121);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 20);
+            this.label5.Size = new System.Drawing.Size(51, 15);
             this.label5.TabIndex = 19;
             this.label5.Text = "Apellido";
             // 
             // textBox_NombreReg
             // 
-            this.textBox_NombreReg.Location = new System.Drawing.Point(246, 128);
+            this.textBox_NombreReg.Location = new System.Drawing.Point(215, 96);
+            this.textBox_NombreReg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox_NombreReg.Name = "textBox_NombreReg";
-            this.textBox_NombreReg.Size = new System.Drawing.Size(125, 27);
+            this.textBox_NombreReg.Size = new System.Drawing.Size(110, 23);
             this.textBox_NombreReg.TabIndex = 18;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(148, 128);
+            this.label4.Location = new System.Drawing.Point(130, 96);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 20);
+            this.label4.Size = new System.Drawing.Size(51, 15);
             this.label4.TabIndex = 17;
             this.label4.Text = "Nombre";
             // 
             // buttonCancelar
             // 
-            this.buttonCancelar.Location = new System.Drawing.Point(24, 397);
+            this.buttonCancelar.Location = new System.Drawing.Point(21, 298);
+            this.buttonCancelar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonCancelar.Name = "buttonCancelar";
-            this.buttonCancelar.Size = new System.Drawing.Size(94, 29);
+            this.buttonCancelar.Size = new System.Drawing.Size(82, 22);
             this.buttonCancelar.TabIndex = 27;
             this.buttonCancelar.Text = "Cancelar";
             this.buttonCancelar.UseVisualStyleBackColor = true;
@@ -119,9 +124,10 @@
             // 
             // buttonModificar
             // 
-            this.buttonModificar.Location = new System.Drawing.Point(468, 338);
+            this.buttonModificar.Location = new System.Drawing.Point(410, 254);
+            this.buttonModificar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonModificar.Name = "buttonModificar";
-            this.buttonModificar.Size = new System.Drawing.Size(94, 29);
+            this.buttonModificar.Size = new System.Drawing.Size(82, 22);
             this.buttonModificar.TabIndex = 28;
             this.buttonModificar.Text = "Modificar";
             this.buttonModificar.UseVisualStyleBackColor = true;
@@ -129,9 +135,10 @@
             // 
             // buttonEliminar
             // 
-            this.buttonEliminar.Location = new System.Drawing.Point(609, 338);
+            this.buttonEliminar.Location = new System.Drawing.Point(533, 254);
+            this.buttonEliminar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonEliminar.Name = "buttonEliminar";
-            this.buttonEliminar.Size = new System.Drawing.Size(94, 29);
+            this.buttonEliminar.Size = new System.Drawing.Size(82, 22);
             this.buttonEliminar.TabIndex = 29;
             this.buttonEliminar.Text = "Eliminar";
             this.buttonEliminar.UseVisualStyleBackColor = true;
@@ -141,27 +148,28 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(27, 19);
+            this.label1.Location = new System.Drawing.Point(24, 14);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(344, 41);
+            this.label1.Size = new System.Drawing.Size(285, 32);
             this.label1.TabIndex = 30;
-            this.label1.Text = "Adminitrador de Usuario";
+            this.label1.Text = "Administrador de Usuario";
             // 
             // checkBoxBloqueado
             // 
             this.checkBoxBloqueado.AutoSize = true;
-            this.checkBoxBloqueado.Location = new System.Drawing.Point(477, 131);
+            this.checkBoxBloqueado.Location = new System.Drawing.Point(417, 98);
+            this.checkBoxBloqueado.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxBloqueado.Name = "checkBoxBloqueado";
-            this.checkBoxBloqueado.Size = new System.Drawing.Size(135, 24);
+            this.checkBoxBloqueado.Size = new System.Drawing.Size(107, 19);
             this.checkBoxBloqueado.TabIndex = 31;
             this.checkBoxBloqueado.Text = "Esta Bloqueado";
             this.checkBoxBloqueado.UseVisualStyleBackColor = true;
             // 
             // FormUsuario
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(700, 338);
             this.Controls.Add(this.checkBoxBloqueado);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonEliminar);
@@ -176,6 +184,7 @@
             this.Controls.Add(this.textBox_NombreReg);
             this.Controls.Add(this.label4);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormUsuario";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormUsuario";
