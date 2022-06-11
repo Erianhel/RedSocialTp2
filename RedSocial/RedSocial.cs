@@ -314,6 +314,9 @@ namespace RedSocial
                 nuevo.usuario = usuarioActual;
                 foreach (Tag t in tag)
                 {
+                    t.id = DB.altaTag(t.palabra,idNuevoPost);
+                    DB.altaRelacionarTagPost(idNuevoPost,t.id);
+
                     t.posts.Add(nuevo);
                     nuevo.tags.Add(t);
 
