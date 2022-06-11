@@ -1048,8 +1048,8 @@ namespace RedSocial
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        int idPost = reader.GetInt32(1);
-                        int idTag = reader.GetInt32(2);
+                        int idPost = reader.GetInt32(2);
+                        int idTag = reader.GetInt32(1);
                         Post postAux = null;
                         foreach (Post post in misPosts)
                         {
