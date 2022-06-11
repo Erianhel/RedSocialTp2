@@ -959,19 +959,7 @@ namespace RedSocial
             }
             if (resultadoQuery == 1)
             {
-                /*
-                try
-                {
-                    //Ahora sí lo elimino en la lista
-                    for (int i = 0; i < misTags.Count; i++)
-                        if (misTags[i].id == Id)
-                            misTags.RemoveAt(i);
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }*/
+                
                 return true;
             }
             else
@@ -1183,28 +1171,6 @@ namespace RedSocial
             {
                 try
                 {
-                    /*
-                    //Ahora sí lo elimino en la lista
-                    Post postAux = null;
-                    foreach (Post post in misPosts)
-                    {
-                        if (post.id == IdPost)
-                        {
-                            postAux = post;
-                            break;
-                        }
-                    }
-
-                    foreach (Tag tag in misTags)
-                    {
-                        if (tag.id == IdTag)
-                        {
-                            postAux.tags.Remove(tag);
-                            tag.posts.Remove(postAux);
-                            break;
-                        }
-                    }
-                    */
                     return true;
                 }
                 catch (Exception)
@@ -1218,6 +1184,47 @@ namespace RedSocial
                 return false;
             }
         }
-    
+        public bool bajaRelacionTag_post(int IdTag)
+        {
+            //primero me aseguro que lo pueda agregar a la base
+            int resultadoQuery;
+            string connectionString = connectionDB;
+            string queryString = "DELETE FROM [dbo].[TAG_POST] WHERE ID_tag=@idTag";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@idTag", SqlDbType.Int));
+                command.Parameters["@idTag"].Value = IdTag;
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQuery = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+            if (resultadoQuery == 1)
+            {
+                try
+                {
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
+            }
+        }
+
     }
 }

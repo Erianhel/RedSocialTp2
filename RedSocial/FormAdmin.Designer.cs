@@ -40,6 +40,11 @@
             this.idPost = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContenidoPost = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AccionPost = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.dataGridViewTags = new System.Windows.Forms.DataGridView();
+            this.IDTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tag = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AccionTag = new System.Windows.Forms.DataGridViewButtonColumn();
             this.labelUsuario = new System.Windows.Forms.Label();
             this.buttonOut = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
@@ -47,14 +52,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUsuarios)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPost)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTags)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.ItemSize = new System.Drawing.Size(100, 25);
             this.tabControl1.Location = new System.Drawing.Point(12, 91);
             this.tabControl1.Name = "tabControl1";
+            this.tabControl1.Padding = new System.Drawing.Point(100, 3);
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(926, 539);
             this.tabControl1.TabIndex = 0;
@@ -142,6 +152,7 @@
             this.dataGridViewPost.RowTemplate.Height = 29;
             this.dataGridViewPost.Size = new System.Drawing.Size(913, 502);
             this.dataGridViewPost.TabIndex = 0;
+            this.dataGridViewPost.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.seleccionadorPost);
             this.dataGridViewPost.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPost_CellContentClick);
             // 
             // idPost
@@ -166,6 +177,56 @@
             this.AccionPost.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.AccionPost.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.AccionPost.Width = 125;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.dataGridViewTags);
+            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(918, 506);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Tags";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewTags
+            // 
+            this.dataGridViewTags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewTags.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IDTags,
+            this.Tag,
+            this.AccionTag});
+            this.dataGridViewTags.Location = new System.Drawing.Point(1, 1);
+            this.dataGridViewTags.Name = "dataGridViewTags";
+            this.dataGridViewTags.RowHeadersWidth = 51;
+            this.dataGridViewTags.RowTemplate.Height = 29;
+            this.dataGridViewTags.Size = new System.Drawing.Size(914, 505);
+            this.dataGridViewTags.TabIndex = 0;
+            this.dataGridViewTags.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.seleccionadorTag);
+            this.dataGridViewTags.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.eliminarTag);
+            // 
+            // IDTags
+            // 
+            this.IDTags.HeaderText = "ID";
+            this.IDTags.MinimumWidth = 6;
+            this.IDTags.Name = "IDTags";
+            this.IDTags.Width = 50;
+            // 
+            // Tag
+            // 
+            this.Tag.HeaderText = "Tag";
+            this.Tag.MinimumWidth = 6;
+            this.Tag.Name = "Tag";
+            this.Tag.Width = 650;
+            // 
+            // AccionTag
+            // 
+            this.AccionTag.HeaderText = "Accion";
+            this.AccionTag.MinimumWidth = 6;
+            this.AccionTag.Name = "AccionTag";
+            this.AccionTag.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.AccionTag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.AccionTag.Width = 125;
             // 
             // labelUsuario
             // 
@@ -206,6 +267,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUsuarios)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPost)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTags)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,5 +290,10 @@
         private DataGridViewTextBoxColumn idPost;
         private DataGridViewTextBoxColumn ContenidoPost;
         private DataGridViewButtonColumn AccionPost;
+        private TabPage tabPage3;
+        private DataGridView dataGridViewTags;
+        private DataGridViewTextBoxColumn IDTags;
+        private DataGridViewTextBoxColumn Tag;
+        private DataGridViewButtonColumn AccionTag;
     }
 }

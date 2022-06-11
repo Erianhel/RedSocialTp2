@@ -370,15 +370,15 @@ namespace RedSocial
 
             //busco al usuario en la lista de usuarios
             int aux = usuarios.FindIndex(usuario => usuario.id == usuarioActual.id);
-            if (!usuarioActual.misPost.Contains(posts[auxPost])) return false;
+            if (!usuarioActual.misPost.Contains(posts[auxPost]) && !usuarioActual.esAdmin) return false;
                 //busco la reaccion correspondiente al post 
                 Reaccion reaccionEliminar;
-            if (posts[auxPost].reacciones != null && posts[auxPost].reacciones.Count >0)
+            if (posts[auxPost].reacciones != null || posts[auxPost].reacciones.Count >0)
             {
                 //elimino la reaccion correspondiente al post
                 reaccionEliminar = usuarios[aux].misReacciones.Find(x => x.post.Equals(posts[auxPost]));
                 usuarios[aux].misReacciones.Remove(reaccionEliminar);
-                DB.eliminarReaccion(reaccionEliminar.id);
+                if(reaccionEliminar != null) DB.eliminarReaccion(reaccionEliminar.id);
             }
 
             if (posts[auxPost].comentarios != null)
@@ -419,6 +419,10 @@ namespace RedSocial
         public List<Post> mostrarPost()
         {
             return posts;
+        }
+        public List<Tag> mostrarTag()
+        {
+            return tags;
         }
 
         //Mostrar posts amigo
@@ -536,8 +540,41 @@ namespace RedSocial
             }
 
         }
+        //===========================================MANEJO DE TAGS==================================================
 
+        public bool eliminarTag(int idTag)
+        {
+            int idTagAux=-1;
+            bool borro = false;
+            foreach (Tag tag in tags)
+            {
+                if(tag.id == idTag)
+                {
+                    idTagAux= tag.id;
+                    break;
+                }
+            }
 
+            DB.bajaRelacionTag_post(idTagAux);
+
+            borro = DB.bajaTag(idTag);
+
+            if (!borro) return borro;
+
+            foreach (Post post in posts)
+            {
+                foreach(Tag tag in post.tags)
+                {
+                    if(tag.id == idTagAux)
+                    {
+                        post.tags.Remove(tag);
+                    }
+                }
+            }
+            
+
+            return borro;
+        }
 
     }
 

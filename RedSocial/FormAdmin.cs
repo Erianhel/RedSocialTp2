@@ -43,6 +43,10 @@ namespace RedSocial
             {
                 dataGridViewPost.Rows.Add(post.id, post.contenido, "Modificar");
             }
+            foreach (Tag tag in miRed.mostrarTag())
+            {
+                dataGridViewTags.Rows.Add(tag.id, tag.palabra, "Eliminar");
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -80,8 +84,25 @@ namespace RedSocial
             if (seleccionarPost != null && seleccionarPost != -1)
             {
                 //int aux = int.Parse(dataGridViewUsuarios.Rows[seleccionarUsuario].Cells[0].Value.ToString());
-                this.eventoPost(int.Parse(dataGridViewPost.Rows[seleccionarUsuario].Cells[0].Value.ToString()));
+                this.eventoPost(int.Parse(dataGridViewPost.Rows[seleccionarPost].Cells[0].Value.ToString()));
                 this.Close();
+            }
+        }
+
+        private void eliminarTag(object sender, DataGridViewCellEventArgs e)
+        {
+            if (seleccionarTag != null && seleccionarTag != -1)
+            {
+                if (MessageBox.Show("Quiere quitar este tag?",
+                    "Mensaje",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    if (miRed.eliminarTag(int.Parse(dataGridViewTags.Rows[seleccionarUsuario].Cells[0].Value.ToString())))
+                    {
+                        dataGridViewTags.Rows.Remove(dataGridViewTags.Rows[seleccionarTag]);
+                    }
+                }
             }
         }
     }
