@@ -395,8 +395,9 @@ namespace RedSocial
             {
                 foreach(Tag tag in posts[auxPost].tags)
                 {
-                    DB.bajaTag(tag.id);
+                    tags.Remove(tag);
                     DB.bajaRelacionTag_post(idPost, tag.id);
+                    DB.bajaTag(tag.id);
                 }
                 
             }
