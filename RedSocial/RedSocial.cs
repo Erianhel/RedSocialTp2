@@ -553,34 +553,37 @@ namespace RedSocial
 
         public bool eliminarTag(int idTag)
         {
-            int idTagAux=-1;
+            int idPost = -1;
             bool borro = false;
+            Tag aux = null;
+
             foreach (Tag tag in tags)
             {
-                if(tag.id == idTag)
+                if (tag.id == idTag)
                 {
-                    idTagAux= tag.id;
+                    aux = tag;
+                    idPost = tag.idPost;
                     break;
                 }
             }
 
-            DB.bajaRelacionTag_post(idTagAux);
+            foreach (Post post in posts)
+            {
+                if (post.id == idPost)
+                {
+                    post.tags.Remove(aux);
+                }
+            }
+
+            tags.Remove(aux);
+
+
+             DB.bajaRelacionTag_post(idTag);
 
             borro = DB.bajaTag(idTag);
 
             if (!borro) return borro;
 
-            foreach (Post post in posts)
-            {
-                foreach(Tag tag in post.tags)
-                {
-                    if(tag.id == idTagAux)
-                    {
-                        post.tags.Remove(tag);
-                    }
-                }
-            }
-            
 
             return borro;
         }
