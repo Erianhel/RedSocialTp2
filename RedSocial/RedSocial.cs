@@ -556,6 +556,7 @@ namespace RedSocial
             int idPost = -1;
             bool borro = false;
             Tag aux = null;
+            
 
             foreach (Tag tag in tags)
             {
@@ -572,9 +573,10 @@ namespace RedSocial
                 if (post.id == idPost)
                 {
                     post.tags.Remove(aux);
+                    
                 }
+   
             }
-
             tags.Remove(aux);
 
 
